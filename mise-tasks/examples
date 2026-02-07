@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+mkdir -p examples/
+
+uv run python -m src.trainers.ast_trainer \
+  /usr/lib/python3 \
+  --output examples/stdlib_model.py \
+  --min-count 10 \
+  --order 2

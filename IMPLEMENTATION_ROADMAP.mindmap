@@ -1,0 +1,248 @@
+# Marky Implementation Roadmap
+
+## Project Structure
+- Trainers (AST & Semantic)
+  - AST Markov Trainer
+    - Extract AST sequences
+    - Build n-gram models
+    - Export to Python
+  - Semantic Pattern Extractor
+    - Define CodePattern enum
+    - Detect 50+ patterns
+    - Classify constructs
+  - Semantic Markov Trainer
+    - Use pattern analyzer
+    - Build semantic transitions
+    - Export models
+
+- Core Interfaces
+  - Data Types
+    - NextNodeSuggestion
+    - NextPatternSuggestion
+    - ASTContext
+    - ValidationResult
+  - Model Loading
+    - Standard interfaces
+    - Version compatibility
+
+- Agent Integration Layer
+  - AST Code Guide
+    - Fast lookups
+    - Temperature sampling
+    - Logit biasing
+    - Fallback mechanisms
+  - Semantic Code Guide
+    - Pattern templates
+    - Prompt enhancement
+    - Pattern chains
+    - Intent detection
+  - Performance Optimization
+    - Caching layer
+    - Pre-warmed cache
+    - Benchmarking
+
+- Advanced Features
+  - REST API Service
+    - /ast/suggest
+    - /semantic/suggest
+    - /health endpoints
+  - Prompt Engineering
+    - AST enhancement
+    - Semantic enhancement
+    - Guidance generation
+  - Reference Agent
+    - Semantic coding agent
+    - Iterative refinement
+    - Pattern-driven generation
+
+- CLI & Tools
+  - Training Commands
+    - marky train --type ast
+    - marky train --type semantic
+  - Analysis Tools
+    - Pattern analysis
+    - Statistics printing
+    - Benchmarking
+  - Full Test Suite
+    - Unit tests
+    - Integration tests
+    - Performance tests
+
+## Implementation Phases
+- Phase 1: Foundation (Trainers)
+  - 1.1: ASTMarkovTrainer ✓
+  - 1.2: SemanticPatternExtractor ✓
+  - 1.3: SemanticMarkovTrainer ✓
+  - 1.4: Model Types ✓
+  
+- Phase 2: Agent Integration
+  - 2.1: ASTCodeGuide ✓
+  - 2.2: SemanticCodeGuide ✓
+  - 2.3: Performance ✓
+  
+- Phase 3: Advanced
+  - 3.1: REST API ✓
+  - 3.2: Prompt Enhancement ✓
+  - 3.3: Semantic Agent ✓
+  
+- Phase 4: Polish
+  - 4.1: CLI Tools ✓
+  - 4.2: Tests ✓
+  - 4.3: Documentation ✓
+
+## Code Pattern Taxonomy (~50 patterns)
+- Control Flow (5)
+  - IF_NONE_CHECK
+  - IF_NOT_NONE
+  - IF_EMPTY_CHECK
+  - IF_TYPE_CHECK
+  - GUARD_CLAUSE
+  
+- Loop Patterns (6)
+  - LOOP_ACCUMULATE
+  - LOOP_TRANSFORM
+  - LOOP_FILTER
+  - LOOP_ENUMERATE
+  - LOOP_ZIP
+  - LOOP_DICT_ITEMS
+  
+- Return Patterns (5)
+  - RETURN_NONE
+  - RETURN_BOOL
+  - RETURN_LIST
+  - RETURN_DICT
+  - RETURN_COMPUTED
+  
+- Data Structures (8)
+  - INIT_EMPTY_LIST
+  - INIT_EMPTY_DICT
+  - INIT_COUNTER
+  - APPEND_TO_LIST
+  - DICT_UPDATE
+  - DICT_GET_DEFAULT
+  - DEFAULT_DICT_PATTERN
+  - UNPACKING
+  
+- Error Handling (5)
+  - TRY_EXCEPT_PASS
+  - TRY_EXCEPT_LOG
+  - TRY_EXCEPT_RERAISE
+  - TRY_FINALLY
+  - CONTEXT_MANAGER
+  
+- Functions & Classes (6)
+  - FUNCTION_VALIDATOR
+  - FUNCTION_TRANSFORMER
+  - INIT_METHOD
+  - PROPERTY_GETTER
+  - CLASS_METHOD
+  - STATIC_METHOD
+  
+- Comprehensions (3)
+  - LIST_COMPREHENSION
+  - DICT_COMPREHENSION
+  - GENERATOR_EXPRESSION
+  
+- API Patterns (3)
+  - API_VALIDATION
+  - API_ERROR_RESPONSE
+  - API_SUCCESS_RESPONSE
+  
+- Other Idioms (8)
+  - TERNARY_EXPRESSION
+  - STRING_FORMAT
+  - LOGGING_CALL
+  - EARLY_RETURN_SUCCESS
+  - EARLY_RETURN_FAILURE
+  - PROPERTY_SETTER
+  - FUNCTION_DECORATOR
+  - FUNCTION_FACTORY
+
+## Key Metrics
+- AST Trainer
+  - Vocabulary: ~200 node types
+  - Training speed: 1000 files/min
+  - Model size: 10-50MB
+  
+- Semantic Trainer
+  - Vocabulary: ~50 patterns
+  - Training speed: 500 files/min
+  - Model size: 1-10MB
+  - 5-10x faster inference
+  
+- Performance Targets
+  - Lookup latency: <1ms (cached)
+  - Throughput: 50K queries/sec
+  - Cache hit rate: >90% (warmed)
+
+## Test Coverage Requirements
+- Phase 1: >90% coverage
+  - Unit tests per module
+  - Pattern detection tests
+  - Model export validation
+  
+- Phase 2: >85% coverage
+  - Guide interface tests
+  - Fallback mechanism tests
+  - Cache performance tests
+  
+- Phase 3: >80% coverage
+  - API endpoint tests
+  - Agent integration tests
+  - End-to-end tests
+  
+- Phase 4: >95% coverage
+  - Full test suite
+  - CLI validation
+  - Documentation examples
+
+## Success Criteria Per Phase
+- Phase 1
+  - Parse 1000+ files successfully
+  - Extract 40+ pattern types
+  - Export valid, executable models
+  - Unit tests pass
+  
+- Phase 2
+  - <1ms lookup latency
+  - >90% fallback success
+  - 50%+ performance improvement with cache
+  - All agent scenarios validated
+  
+- Phase 3
+  - 1000 req/sec API throughput
+  - Improved generation quality
+  - 95%+ valid code generation
+  - <5 seconds per function
+  
+- Phase 4
+  - Intuitive CLI interface
+  - >95% test coverage
+  - Complete documentation
+  - Production-ready
+
+## Dependencies
+- External
+  - Python 3.8+
+  - ast (stdlib)
+  - collections (stdlib)
+  - numpy (optional, for logit biasing)
+  - Flask (optional, for REST API)
+  
+- Internal
+  - Phase 1 required for all later phases
+  - Phase 2 required for Phase 3
+  - Phase 3 builds on Phase 2
+
+## Known Challenges
+- Pattern detection accuracy
+  - Mitigated: More training data, better heuristics
+  
+- Memory for large models
+  - Mitigated: Quantization, sparse storage
+  
+- Edge cases in incomplete code
+  - Mitigated: Multiple fallback strategies
+  
+- Sparse state space coverage
+  - Mitigated: Aggregation fallbacks, defaults
