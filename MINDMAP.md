@@ -30,3 +30,4 @@
 
 [12] **Project purpose** - Provide a robust and useful tool for agents that can aid in generation of content by leveraging markov chains - See design document at [DESIGN](./DESIGN.md). Make sure to keep both this MINDMAP and the DESIGN document updated as implementation goes along.
 
+[13] **Stack** - this project is managed by `uv` and all python interactions shall go via `uv`, e.g. `uv run python <REST>` and `uv add <DEP>` etc. Testing is by `pytest`
