@@ -94,6 +94,10 @@ class SemanticNode:
 
     pattern: CodePattern
     context: Dict = None
+    lineno: Optional[int] = None  # Line number in source file
+    col_offset: Optional[int] = None  # Column offset in source file
+    end_lineno: Optional[int] = None  # End line number
+    end_col_offset: Optional[int] = None  # End column offset
 
     def __post_init__(self):
         if self.context is None:
@@ -122,6 +126,25 @@ class SemanticPatternAnalyzer(ast.NodeVisitor):
         self.in_loop = False
         self.in_try = False
 
+    def _add_pattern(self, pattern: CodePattern, node: ast.AST = None, context: Dict = None):
+        """Add a pattern with location information."""
+        if context is None:
+            context = {}
+        
+        lineno = getattr(node, 'lineno', None) if node else None
+        col_offset = getattr(node, 'col_offset', None) if node else None
+        end_lineno = getattr(node, 'end_lineno', None) if node else None
+        end_col_offset = getattr(node, 'end_col_offset', None) if node else None
+        
+        self.patterns.append(SemanticNode(
+            pattern=pattern,
+            context=context,
+            lineno=lineno,
+            col_offset=col_offset,
+            end_lineno=end_lineno,
+            end_col_offset=end_col_offset
+        ))
+
     def visit_FunctionDef(self, node: ast.FunctionDef):
         """Analyze function definitions."""
         old_function = self.current_function
@@ -130,7 +153,7 @@ class SemanticPatternAnalyzer(ast.NodeVisitor):
         # Detect function type
         func_pattern = self._classify_function(node)
         if func_pattern:
-            self.patterns.append(SemanticNode(func_pattern, {"name": node.name}))
+            self._add_pattern(func_pattern, node, {"name": node.name})
 
         # Visit body
         self.generic_visit(node)
@@ -145,7 +168,7 @@ class SemanticPatternAnalyzer(ast.NodeVisitor):
         """Detect conditional patterns."""
         pattern = self._classify_if_statement(node)
         if pattern:
-            self.patterns.append(SemanticNode(pattern, {}))
+            self._add_pattern(pattern, node)
 
         self.generic_visit(node)
 
@@ -156,7 +179,7 @@ class SemanticPatternAnalyzer(ast.NodeVisitor):
 
         pattern = self._classify_loop(node)
         if pattern:
-            self.patterns.append(SemanticNode(pattern, {}))
+            self._add_pattern(pattern, node)
 
         self.generic_visit(node)
 
@@ -178,7 +201,7 @@ class SemanticPatternAnalyzer(ast.NodeVisitor):
         """Detect return patterns."""
         pattern = self._classify_return(node)
         if pattern:
-            self.patterns.append(SemanticNode(pattern, {}))
+            self._add_pattern(pattern, node)
 
         self.generic_visit(node)
 

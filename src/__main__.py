@@ -365,7 +365,10 @@ class MarkyCLI:
             
             # Extract patterns from code using our extractor
             patterns = extract_patterns_from_code(code)
+            
+            # Build sequence with location info
             pattern_sequence = [node.pattern for node in patterns]
+            pattern_locations = {i: node for i, node in enumerate(patterns)}
 
             # Convert our CodePattern enums to the model's CodePattern enums
             # by matching on the value string
@@ -399,19 +402,41 @@ class MarkyCLI:
 
                     context_str = ' → '.join(p.value for p in context)
                     
+                    # Get location info for the next pattern
+                    next_node = pattern_locations.get(i)
+                    loc_info = ""
+                    if next_node and next_node.lineno:
+                        loc_info = f" @ line {next_node.lineno}:{next_node.col_offset}"
+                    
                     if context in model_module.probabilities:
                         probs = model_module.probabilities[context]
                         if next_pattern in probs:
                             prob = probs[next_pattern]
                             total_log_prob += np.log(prob) if prob > 0 else -np.inf
                             transition_count += 1
-                            matched_sequences.append(f'{context_str} → {next_pattern.value} ({prob:.3f})')
+                            matched_sequences.append({
+                                'context': context_str,
+                                'next': next_pattern.value,
+                                'prob': prob,
+                                'location': loc_info
+                            })
                         else:
                             # This transition doesn't exist in model
                             next_options = ', '.join(p.value for p in list(probs.keys())[:3])
-                            issues.append(f'{context_str} → {next_pattern.value} [got: {next_options}]')
+                            issues.append({
+                                'type': 'unexpected',
+                                'context': context_str,
+                                'next': next_pattern.value,
+                                'options': next_options,
+                                'location': loc_info
+                            })
                     else:
-                        issues.append(f'Unknown: {context_str}')
+                        # Context not in model
+                        issues.append({
+                            'type': 'unknown_context',
+                            'context': context_str,
+                            'location': loc_info
+                        })
 
                 if transition_count > 0:
                     avg_log_prob = total_log_prob / transition_count
@@ -429,16 +454,28 @@ class MarkyCLI:
                 print(f"  Known transitions: {transition_count}/{checked}")
 
                 if matched_sequences:
-                    print(f"\n  ✓ Matching sequences:")
-                    for seq in matched_sequences[:7]:
-                        print(f"    {seq}")
+                    print(f"\n  ✓ Matching sequences ({len(matched_sequences)}):")
+                    for i, seq in enumerate(matched_sequences[:7], 1):
+                        print(f"    {i}. {seq['context']} → {seq['next']} ({seq['prob']:.3f}){seq['location']}")
                 
                 if issues:
-                    print(f"\n  ✗ Non-matching sequences: {len(issues)}")
-                    for error in issues[:3]:
-                        print(f"    {error}")
-                    if len(issues) > 3:
-                        print(f"    ... and {len(issues) - 3} more")
+                    print(f"\n  ✗ Non-matching sequences ({len(issues)}):")
+                    for i, issue in enumerate(issues[:5], 1):
+                        if issue['type'] == 'unknown_context':
+                            print(f"    {i}. Unknown sequence: {issue['context']}{issue['location']}")
+                        else:
+                            print(f"    {i}. {issue['context']} → {issue['next']}{issue['location']}")
+                            print(f"       Expected one of: {issue['options']}")
+                    
+                    if len(issues) > 5:
+                        print(f"    ... and {len(issues) - 5} more")
+                
+                # Summary statistics
+                print(f"\n  Summary:")
+                print(f"    Unique patterns found: {len(set(p.value for p in model_pattern_sequence))}")
+                print(f"    Coverage: {transition_count}/{checked} transitions ({100*transition_count/max(1, checked):.1f}%)")
+                if issues:
+                    print(f"    Issues: {len([i for i in issues if i['type'] == 'unexpected'])} unexpected, {len([i for i in issues if i['type'] == 'unknown_context'])} unknown context")
             else:
                 print("Could not extract semantic patterns from code (no patterns detected)")
 
