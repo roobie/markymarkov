@@ -98,21 +98,137 @@
 ### 1. Introduction
 
 **What is Marky?**
-- Marky is a Markov Chain-based code guidance system designed to help LLM agents generate better code
-- It learns patterns from existing codebases and uses those patterns to validate and guide code generation
-- Built specifically for Python (but architecture is language-agnostic)
+
+Marky is a Markov Chain-based code guidance system designed to help LLM agents generate better code. Unlike traditional linters or type checkers that enforce fixed rules, Marky learns patterns directly from your codebase and uses those patterns to validate and guide code generation in real-time.
+
+At its core, Marky operates on a simple but powerful principle: **code is sequential, and code patterns are learnable**. By analyzing existing code, it builds probabilistic models of what patterns typically follow other patterns—both at the syntactic level (how code is structured) and at the semantic level (what code idioms are preferred).
+
+Key characteristics:
+- **Pattern-based**: Learns from your actual codebase, not predefined rules
+- **Probabilistic**: Provides confidence scores, not just pass/fail
+- **Fast**: Sub-millisecond lookups enable real-time guidance during generation
+- **Interpretable**: Can explain why a pattern is expected or unexpected
+- **Language-agnostic architecture**: Currently focused on Python, but extensible to other languages
+- **Deployable**: Exports models as executable Python modules with no external dependencies
 
 **The Problem It Solves**
-- LLMs generate syntactically correct code but not always stylistically correct
-- No way to check if generated code follows project conventions
-- Hard to enforce organizational coding standards programmatically
-- Gap between "valid code" and "idiomatic code"
+
+Modern LLM-based code generation has created a paradox: **generated code is often syntactically correct does not always follow stylistic idioms or algorithmic patterns**.
+
+Consider this scenario:
+- An LLM generates a Python function that uses a valid but non-idiomatic pattern
+- The code parses without errors
+- Type checkers are satisfied
+- But it violates your team's coding conventions
+- A human reviewer flags it for rewriting
+
+This is the gap Marky addresses. Today's development teams face several related challenges:
+
+1. **Style Enforcement at Scale**
+   - Teams want consistency across codebases
+   - Manual code review can't catch every style deviation
+   - Linters only check static rules, not learned patterns
+   - No way to programmatically enforce "this is how *we* write code"
+
+2. **LLM Code Generation Quality**
+   - LLMs generate valid code, but not idiomatic code
+   - Agents can't distinguish between "correct" and "our style"
+   - Temperature and sampling can't capture organizational conventions
+   - Training on diverse data means diverse output
+
+3. **Validation Gaps**
+   - Linters are rule-based (hard to maintain)
+   - Type checkers focus on types, not patterns
+   - AST visitors can find structure but miss intent
+   - No standard way to validate "does this follow our patterns?"
+
+4. **Training Data Analysis**
+   - Hard to understand what patterns dominate your codebase
+   - Difficult to identify anomalies or tech debt
+   - No way to measure consistency across teams
+   - Can't extract "what makes our code unique?"
+
+Marky solves these by learning patterns from your code and providing:
+- **Real-time validation**: Is this pattern expected?
+- **Confidence scores**: How idiomatic is this code?
+- **Diagnostic information**: Where does it diverge and why?
+- **Generation guidance**: What patterns should come next?
 
 **Why Markov Chains for Code?**
-- Markov chains excel at learning sequential patterns
-- Code is inherently sequential (AST traversal, control flow, pattern chains)
-- Computationally efficient compared to deep learning
-- Interpretable: can explain why a pattern is (or isn't) expected
+
+You might wonder: "Why not use deep learning, LSTMs, or transformers?" The answer reveals important truths about code and pattern matching.
+
+1. **Code is Inherently Sequential**
+   - Code flows through AST traversal order
+   - Control flow follows predictable paths
+   - Pattern composition is chain-like
+   - Markov chains were literally invented for this use case
+
+2. **The Markov Property Holds for Code**
+   - "The next pattern depends only on the current pattern" ✓
+   - Previous history can be captured in n-gram state
+   - Two-state or three-state context is often sufficient
+   - Rare cases benefit from higher-order models
+
+3. **Computational Efficiency**
+   - Training: O(n) pass through codebase
+   - Inference: O(1) hash table lookup
+   - Deep learning: GPU-heavy, requires infrastructure
+   - Marky: CPU-friendly, runs anywhere
+   - **1000 files/minute training speed** (AST model)
+   - **<1ms query latency** (cached lookups)
+
+4. **Interpretability**
+   - Deep learning: "Why did it choose this?" → Inscrutable
+   - Markov chains: "What's the probability?" → Auditable
+   - Can explain: "After X pattern, Y is expected 85% of the time"
+   - Developers can reason about confidence scores
+   - No black box; built on transparent math
+
+5. **Data Efficiency**
+   - Deep learning: Needs massive datasets
+   - Markov chains: Work well with any size codebases
+   - Effective with 100+ files
+   - Scales gracefully to 100K+ files
+   - Graceful degradation (unknown patterns still provide value)
+
+6. **Integration with LLMs**
+   - LLMs already generate token sequences
+   - Markov models provide per-token guidance
+   - Natural fit for token-by-token validation
+   - Easy to integrate into sampling/generation loops
+   - No need to retrain LLM; validate output instead
+
+**Real-World Example: Why This Matters**
+
+Imagine your team uses these patterns:
+- Guard clauses for early returns (not nested ifs)
+- List comprehensions over manual loops
+- Context managers for resource handling
+- f-strings over `.format()`
+
+An LLM might generate perfectly valid alternatives:
+- Nested if-else chains (valid, not your style)
+- For loops with manual appends (valid, not your style)
+- Try-finally blocks (valid, not your style)
+- .format() calls (valid, not your style)
+
+Marky learns these preferences from your codebase and can:
+1. **During generation**: Guide the LLM toward idiomatic patterns
+2. **During validation**: Flag deviations with confidence scores
+3. **During review**: Explain why code is unexpected
+4. **For training**: Help fine-tune models on your patterns
+
+**The Marky Approach**
+
+Rather than debating "right" vs. "wrong" code style, Marky asks: **"What does this codebase do?"** and **"Does this code match those patterns?"**
+
+This shifts the conversation from:
+- "That's wrong" → "That's not how we do it"
+- "Use this style" → "Your code uses different patterns than training"
+- "Bad practice" → "Low confidence match to learned patterns"
+
+The result: objective, data-driven style validation that teams can understand and trust.
 
 ### 2. Core Concept
 
