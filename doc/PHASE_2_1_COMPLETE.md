@@ -365,7 +365,7 @@ print(f"Hit rate: {stats['hit_rate']:.1%}")
 ## File Structure
 
 ```
-marky/
+markymarkov/
 ├── src/
 │   ├── guides/
 │   │   ├── __init__.py

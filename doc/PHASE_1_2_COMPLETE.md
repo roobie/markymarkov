@@ -87,7 +87,7 @@ A fully functional **Semantic Pattern Extractor** that:
 ## File Structure
 
 ```
-marky/
+markymarkov/
 ├── src/
 │   └── trainers/
 │       ├── ast_trainer.py                    ✅ (Phase 1.1)

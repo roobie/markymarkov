@@ -181,7 +181,7 @@ The Marky system is a Markov Chain-based code guidance platform for LLM agents. 
 ## 📁 Project Structure
 
 ```
-marky/
+markymarkov/
 ├── src/
 │   ├── __init__.py
 │   ├── __main__.py                    # CLI interface (426 lines)

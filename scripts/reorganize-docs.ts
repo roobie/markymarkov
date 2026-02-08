@@ -10,7 +10,7 @@ import { $ } from "bun";
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "fs";
 import { join } from "path";
 
-const ROOT = "/home/jani/devel/marky";
+const ROOT = "/home/jani/devel/markymarkov";
 const DOC_DIR = join(ROOT, "doc");
 const FILES_TO_KEEP_IN_ROOT = new Set([
   "README.md",

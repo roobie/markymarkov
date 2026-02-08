@@ -914,7 +914,7 @@ python -m src validate models/semantic_model.py generated_code.py
 **Real-World Validation Output with Diagnostics**
 ```
 > uv run python -m src validate examples/pytest/semantic_model.py src/__main__.py
-Built marky @ file:///.../marky
+Built markymarkov @ file:///.../markymarkov
 Uninstalled 1 package in 0.21ms
 Installed 1 package in 0.45ms
 Loading model: examples/pytest/semantic_model.py
@@ -1452,7 +1452,7 @@ class MarkyGuidedAgent:
     """
 
     def __init__(self, marky_model_path: str, llm_client, temperature=0.7):
-        self.marky = MarkovCodeGuide.load(marky_model_path)
+        self.markymarkov = MarkovCodeGuide.load(marky_model_path)
         self.llm = llm_client
         self.temperature = temperature
         self.generated_code = ""
@@ -1543,14 +1543,14 @@ class MarkyGuidedAgent:
             }
 
         # Extract patterns
-        patterns = self.marky.extract_patterns(code)
+        patterns = self.markymarkov.extract_patterns(code)
 
         # Validate pattern transitions
         transitions = []
         for i in range(1, len(patterns)):
             prev_pattern = patterns[i-1]
             curr_pattern = patterns[i]
-            confidence = self.marky.check_transition(
+            confidence = self.markymarkov.check_transition(
                 prev_pattern,
                 curr_pattern
             )
@@ -2495,7 +2495,7 @@ name: Code Style Validation
 on: [pull_request]
 
 jobs:
-  marky-validate:
+  markymarkov-validate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -2753,8 +2753,8 @@ All these use cases leverage the same core capability: **learning patterns from 
 
 **Installation & Setup**
 ```bash
-git clone https://github.com/roobie/marky
-cd marky
+git clone https://github.com/roobie/markymarkov
+cd markymarkov
 uv sync
 ```
 

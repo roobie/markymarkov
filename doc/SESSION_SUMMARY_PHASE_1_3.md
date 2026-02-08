@@ -341,7 +341,7 @@ Once Phase 1.4 is complete, Phase 2 can begin:
 
 ## 📞 Quick Reference
 
-**Project Location**: `/home/jani/devel/marky/`
+**Project Location**: `/home/jani/devel/markymarkov/`
 
 **Key Files**:
 - src/trainers/ast_trainer.py (Phase 1.1, complete)

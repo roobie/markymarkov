@@ -12,7 +12,7 @@ import { $ } from "bun";
 import { readdirSync, readFileSync, writeFileSync } from "fs";
 import { join } from "path";
 
-const DOC_DIR = "/home/jani/devel/marky/doc";
+const DOC_DIR = "/home/jani/devel/markymarkov/doc";
 
 interface UpdateResult {
   file: string;

@@ -139,9 +139,9 @@ Both trainers extract patterns from Python code, build probabilistic models of s
 **Deliverables**: CLI tools, comprehensive tests, documentation
 
 1. **CLI Tools** (4.1)
-   - `marky train --type {ast|semantic} --input <path> --output model.py`
-   - `marky analyze model.py --top-patterns 20`
-   - `marky benchmark model.py --queries 10000`
+   - `markymarkov train --type {ast|semantic} --input <path> --output model.py`
+   - `markymarkov analyze model.py --top-patterns 20`
+   - `markymarkov benchmark model.py --queries 10000`
 
 2. **Comprehensive Test Suite** (4.2)
    - Unit tests for all modules (>95% coverage)
@@ -168,7 +168,7 @@ Both trainers extract patterns from Python code, build probabilistic models of s
 ## File Structure
 
 ```
-marky/
+markymarkov/
 ├── ./IMPLEMENTATION_PLAN.md      ← Detailed phase breakdown
 ├── IMPLEMENTATION_ROADMAP.mindmap ← Visual overview
 ├── primer.md                   ← Original discussion/ideas

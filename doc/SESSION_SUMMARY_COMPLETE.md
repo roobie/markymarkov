@@ -244,7 +244,7 @@ completions = semantic_guide.get_pattern_completions(partial_code)
 ## 💾 Final File Structure
 
 ```
-marky/
+markymarkov/
 ├── src/
 │   ├── __init__.py
 │   ├── trainers/

@@ -255,7 +255,7 @@ This directory contains comprehensive documentation for implementing property-ba
 ## File Structure After Implementation
 
 ```
-marky/
+markymarkov/
 ├── src/
 │   └── interfaces/
 │       └── model_types.py                    # 5 dataclasses (unchanged)

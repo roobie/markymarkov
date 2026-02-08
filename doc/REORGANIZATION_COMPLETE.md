@@ -60,7 +60,7 @@ Updated [MINDMAP.md](./MINDMAP.md) with proper `./doc/` references:
 ## File Structure
 
 ```
-marky/
+markymarkov/
 ├── README.md                          ← Entry point
 ├── MINDMAP.md                         ← Project tracking
 ├── PROTOCOL_MINDMAP.md                ← Protocol documentation

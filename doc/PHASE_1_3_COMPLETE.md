@@ -217,7 +217,7 @@ Order 3: 4 sequences, 4 transitions
 ## File Structure
 
 ```
-marky/
+markymarkov/
 ├── src/
 │   └── trainers/
 │       ├── ast_trainer.py                     ✅ (Phase 1.1)

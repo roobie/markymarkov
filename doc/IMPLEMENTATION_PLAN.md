@@ -405,10 +405,10 @@ class SemanticCodingAgent:
 
 **Commands**:
 ```bash
-marky train --type ast --input <path> --output model.py --order 2
-marky train --type semantic --input <path> --output model.py --order 2
-marky analyze <model.py> --top-patterns 20
-marky benchmark <model.py> --queries 10000
+markymarkov train --type ast --input <path> --output model.py --order 2
+markymarkov train --type semantic --input <path> --output model.py --order 2
+markymarkov analyze <model.py> --top-patterns 20
+markymarkov benchmark <model.py> --queries 10000
 ```
 
 **Testing**:
@@ -493,7 +493,7 @@ Phase 4: Polish
 ## File Structure
 
 ```
-marky/
+markymarkov/
 ├── src/
 │   ├── trainers/
 │   │   ├── __init__.py

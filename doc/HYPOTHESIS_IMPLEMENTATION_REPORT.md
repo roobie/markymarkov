@@ -269,7 +269,7 @@ Coverage:
 ## File Structure
 
 ```
-marky/
+markymarkov/
 ├── src/
 │   └── interfaces/
 │       └── model_types.py                           [FIXED BUG]

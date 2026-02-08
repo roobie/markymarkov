@@ -62,7 +62,7 @@
 
 [28] **DR: 50 Semantic Patterns** - Control flow (IF_NOT_NONE, GUARD_CLAUSE, etc), Loops (LOOP_FILTER, LOOP_TRANSFORM, etc), Returns, Data structures, Error handling, Functions, Comprehensions, API patterns [25]
 
-[29] **AE: CLI & Testing** - Training commands (marky train --type ast). Analysis tools. Benchmarking. Full test suite (>95% coverage) [30]
+[29] **AE: CLI & Testing** - Training commands (markymarkov train --type ast). Analysis tools. Benchmarking. Full test suite (>95% coverage) [30]
 
 [30] **DR: Performance Targets** - Query latency <1ms (cached). Throughput >50K queries/sec. Cache hit rate >90%. Training speed 1000 files/min (AST), 500 files/min (Semantic) [27]
 

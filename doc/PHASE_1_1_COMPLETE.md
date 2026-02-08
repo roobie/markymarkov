@@ -47,7 +47,7 @@ A fully functional **AST Markov Chain Trainer** that:
 ## File Structure
 
 ```
-marky/
+markymarkov/
 ├── src/
 │   ├── __init__.py
 │   └── trainers/

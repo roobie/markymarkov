@@ -303,10 +303,10 @@ Phase 1.1/
 
 ## File Organization
 
-All project files are in `/home/jani/devel/marky/`:
+All project files are in `/home/jani/devel/markymarkov/`:
 
 ```
-marky/
+markymarkov/
 ├── Planning Documents/        (in root)
 │   ├── ./INDEX.md                       ✅
 │   ├── ./QUICK_REFERENCE.md             ✅

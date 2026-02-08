@@ -320,7 +320,7 @@ tests/interfaces/test_model_types.py::TestIntegration::test_semantic_pattern_wor
 ## File Structure
 
 ```
-marky/
+markymarkov/
 ├── src/
 │   ├── __init__.py
 │   ├── trainers/

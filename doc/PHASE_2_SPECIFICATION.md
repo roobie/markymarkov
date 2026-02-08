@@ -501,7 +501,7 @@ def test_validation_accuracy():
 ## File Structure After Phase 2
 
 ```
-marky/
+markymarkov/
 ├── src/
 │   ├── trainers/
 │   │   ├── ast_trainer.py                    ✅ (Phase 1.1)

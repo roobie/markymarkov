@@ -322,7 +322,7 @@ Phase 1 foundation enables Phase 2:
 ## 💾 File Structure
 
 ```
-marky/
+markymarkov/
 ├── src/
 │   ├── __init__.py
 │   ├── trainers/
@@ -466,7 +466,7 @@ Timeline:
 ## 📞 Quick Reference
 
 **Project**: Marky - Markov Chain Code Guidance for LLM Agents
-**Location**: /home/jani/devel/marky/
+**Location**: /home/jani/devel/markymarkov/
 **Status**: Phase 1 Complete (100%), Phase 2 Ready
 **Tests**: 140+ (all passing)
 **Code**: 2000+ LOC, production-quality
