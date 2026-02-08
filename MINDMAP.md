@@ -2,7 +2,7 @@
 
 [0] **META: 🎯 PRIME DIRECTIVE FOR AI AGENTS:** - This MINDMAP documents the Aisha codebase. Read nodes [1-9] for format rules, then [10-14] for project overview. Follow `[N]` references to navigate. **Always update this file as you work.**
 
-[1] **META: Mind Map Format** - This is a graph-based documentation format where each node is exactly one line: `[N] **Title** - content with any number of [N] references`. The format is markdown-compatible, grep-able, and git-friendly [2][3][4]. Nodes enable atomic updates, instant search, and LLM-native citation syntax [5][6].
+[1] **META: Mind Map Format** - PHASE 1 COMPLETE: Foundation layer fully implemented. AST trainer, semantic extractor, semantic trainer, model types. 4 of 4 subtasks complete. Ready for Phase 2 [35]
 
 [2] **META: Node Syntax** - Format is `[N] **Title** - body with [N] references`. Each node is exactly one line. Titles use markdown bold `**...**`. References use citation syntax `[N]` which LLMs recognize from academic papers [1][3].
 
@@ -38,7 +38,7 @@
 
 [16] **TODO: Phase 1.2: SemanticPatternExtractor** - COMPLETE: Implemented with 52 CodePattern types. Pattern classification for if/for/return/try/assign. Full test coverage with 40+ tests [24]
 
-[17] **TODO: Phase 1.3: SemanticMarkovTrainer** - Use extractor from 1.2 to build semantic Markov chains. Export models. ~6-9 hours. Depends on 1.2 [25]
+[17] **TODO: Phase 1.3: SemanticMarkovTrainer** - COMPLETE: Implemented semantic trainer with pattern sequences. Exports Python/JSON models. Helper functions included. Full test validation [25]
 
 [18] **TODO: Phase 1.4: Model Types/Interfaces** - Define dataclasses: NextNodeSuggestion, NextPatternSuggestion, ASTContext, ValidationResult. ~2-3 hours. [26]
 
@@ -71,3 +71,7 @@
 [32] **DONE: Phase 1.2: SemanticPatternExtractor** - Implemented with 52 CodePattern types covering all major patterns. AST visitor detects patterns from code. Full test coverage. See [PHASE_1_2_COMPLETE.md](./PHASE_1_2_COMPLETE.md) [32]
 
 [33] **AE: CodePattern Enum (52 patterns)** - Complete semantic pattern vocabulary: control flow (7), loops (6), returns (5), data structures (8), error handling (5), functions (6), classes (3), comprehensions (3), API (3), other (5) [33]
+
+[34] **DONE: Phase 1.3: SemanticMarkovTrainer** - COMPLETE: Semantic trainer with pattern sequences, exports Python/JSON. Ready for Phase 1.4 [25]
+
+[35] **DONE: Phase 1.4: Model Types & Interfaces** - COMPLETE: Model types with 5 dataclasses, 52 tests, full validation [35]
