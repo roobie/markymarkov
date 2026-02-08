@@ -233,21 +233,259 @@ The result: objective, data-driven style validation that teams can understand an
 ### 2. Core Concept
 
 **Two-Level Architecture (AST + Semantic)**
-- Level 1 (AST): Ensures syntactic correctness
-- Level 2 (Semantic): Ensures stylistic/idiomatic correctness
-- Complementary, not redundant
+
+Marky's core innovation is its two-level validation architecture. This dual approach gives you the best of both worlds: structural correctness and stylistic idiomaticity.
+
+*Level 1: AST Patterns (Syntactic Correctness)*
+- Analyzes the Abstract Syntax Tree—how code is structurally composed
+- Models transitions between node types: "What follows a function definition?"
+- Answers: "Is the syntactic structure valid for this codebase?"
+- Example patterns:
+  - `FunctionDef → Return` (functions contain returns)
+  - `If → Assign` (assignments can appear in if blocks)
+  - `For → Call` (for loops can contain function calls)
+- Think of it as: "Does the code structure make syntactic sense?"
+
+*Level 2: Semantic Patterns (Style & Idioms)*
+- Analyzes high-level coding idioms and patterns
+- Models transitions between detected patterns: "What comes after a guard clause?"
+- Answers: "Is the code written in the style we prefer?"
+- Example patterns:
+  - `guard-clause → return-list` (guard clauses often precede returns)
+  - `loop-filter → process-item` (filtered loops often process items)
+  - `init-method → assign` (constructors often assign properties)
+- Think of it as: "Does this code match how *we* write code?"
+
+**Why Two Levels?**
+
+The two-level approach solves a fundamental problem: **syntax and style are orthogonal concerns**.
+
+Consider this example: Both of these are syntactically valid:
+
+```python
+# Style A: Nested conditionals
+def validate(items):
+    if items:
+        if len(items) > 0:
+            for item in items:
+                if item.valid:
+                    process(item)
+            return True
+    return False
+
+# Style B: Guard clauses
+def validate(items):
+    if not items:
+        return False
+
+    valid_items = [item for item in items if item.valid]
+    process_all(valid_items)
+    return True
+```
+
+Both parse successfully. Both produce valid ASTs. But they're very different in:
+- Readability (guard clauses are clearer)
+- Idiomaticity (Python community prefers B)
+- Maintainability (B is easier to modify)
+
+**AST alone can't distinguish these.** Both have valid structures. You need semantic analysis to capture the *how* and *why* of code organization.
+
+Conversely, **semantic analysis alone can't catch structure errors.** A semantic pattern might be recognized, but applied to syntactically invalid code. AST validates the foundation.
+
+Together, they form a powerful validation layer:
+- AST ensures: "The code is well-formed"
+- Semantic ensures: "The code follows our conventions"
+- Combined: "The code is correct *and* idiomatic"
 
 **How Markov Models Learn Code Patterns**
-- Parse code into AST or semantic patterns
-- Extract sequences of transitions (parent→child, pattern→pattern)
-- Build frequency tables of what typically follows what
-- Calculate probabilities for each transition
+
+The process of learning happens in three stages:
+
+*Stage 1: Code Extraction*
+```
+Input: Python codebase (100s-1000s of files)
+┗Parse each file to AST
+┗Extract semantic patterns (52 high-level idioms)
+┗Output: Lists of patterns and AST sequences
+```
+
+For example, a function might produce:
+```
+AST sequence: [Module, FunctionDef, FunctionDef, Return, Return]
+Semantic sequence: [function-transformer, guard-clause, return-list, return-none]
+Location tracking: [(line 10, col 4), (line 12, col 8), ...]
+```
+
+*Stage 2: N-gram Creation*
+The sequences are converted to n-grams (chains of N consecutive states):
+
+For order=2 with semantic patterns:
+```
+Sequence: [function-transformer, guard-clause, return-list, return-none]
+2-grams:
+  - (function-transformer, guard-clause) → next is return-list
+  - (guard-clause, return-list) → next is return-none
+```
+
+Each n-gram becomes a key in a frequency table:
+```
+{
+  ('function-transformer', 'guard-clause'): {
+    'return-list': 3,
+    'return-none': 1,
+    'string-format': 1,
+  },
+  ('guard-clause', 'return-list'): {
+    'return-none': 5,
+  },
+}
+```
+
+*Stage 3: Probability Calculation*
+From frequencies, we calculate probabilities:
+
+```
+P(return-list | function-transformer, guard-clause) = 3 / (3+1+1) = 0.60
+P(return-none | function-transformer, guard-clause) = 1 / 5 = 0.20
+P(string-format | function-transformer, guard-clause) = 1 / 5 = 0.20
+```
+
+These probabilities become confidence scores during validation. A probability of 0.60 means: "In training data, when we see this context, the next state was return-list 60% of the time."
+
+**Transition Example**
+
+Let's trace through a real example. Given training code:
+
+```python
+def process_data(items):
+    if not items:                    # ← guard-clause pattern detected
+        return None                   # ← return-none pattern
+
+    results = [x.transform() for x in items]  # ← return-computed pattern
+    return results                    # ← return-list pattern
+```
+
+Semantic patterns extracted: `[guard-clause, return-none, return-computed, return-list]`
+
+2-grams learned:
+```
+guard-clause → return-none (confidence: 0.8)
+return-none → return-computed (confidence: 0.3)
+return-computed → return-list (confidence: 0.9)
+```
+
+Later, when validating generated code with sequence `[guard-clause, return-none, return-computed, return-list]`:
+- ✓ `guard-clause → return-none`: Matches! (0.8 confidence)
+- ✓ `return-none → return-computed`: Unusual but known (0.3 confidence)
+- ✓ `return-computed → return-list`: Matches! (0.9 confidence)
+
+Result: Valid code, moderate-to-high confidence.
 
 **From Training to Deployment**
-- Train models offline on your codebase
-- Export as executable Python modules (no parsing needed)
-- Load and use for real-time validation during code generation
-- Sub-millisecond lookup times with caching
+
+The journey from your codebase to real-time validation has four steps:
+
+*Step 1: Training (Offline, One-Time)*
+```bash
+$ python -m src train /path/to/codebase models/
+```
+- Scans all Python files
+- Builds AST and semantic models
+- Calculates transition probabilities
+- Duration: ~1 minute for 1000 files
+
+*Step 2: Export (One-Time)*
+```bash
+# Models are automatically exported as:
+# models/ast_model.py
+# models/semantic_model.py
+```
+Each is a Python file containing:
+- Pre-calculated probability tables
+- Pattern definitions
+- No external dependencies
+- ~5-50 KB per model
+
+Example structure:
+```python
+# semantic_model.py
+TRANSITIONS = {
+    ('guard-clause', 'return-none'): {
+        'return-computed': 0.8,
+        'return-list': 0.15,
+        'function-transformer': 0.05,
+    },
+    # ... 100s more transitions ...
+}
+
+MODEL_METADATA = {
+    'order': 2,
+    'total_transitions': 847,
+    'unique_patterns': 23,
+}
+```
+
+*Step 3: Loading (Startup, <100ms)*
+```python
+from models.semantic_model import TRANSITIONS, MODEL_METADATA
+
+model = MarkovCodeGuide.from_table(TRANSITIONS, MODEL_METADATA)
+```
+- Just Python imports, no parsing
+- Models load in milliseconds
+- Fits in memory (1-50 MB)
+- Ready for validation
+
+*Step 4: Validation (Real-Time, <1ms per query)*
+```python
+# During code generation
+confidence = model.check_transition(current_pattern, next_pattern)
+# confidence = 0.8 (80% match to training data)
+```
+- Hash table lookup: O(1)
+- Sub-millisecond latency
+- Cache-friendly
+- Can handle 50K+ queries/second
+
+**The Deployment Advantage**
+
+Notice that once trained, Marky needs:
+- No Python AST parser (patterns pre-extracted)
+- No semantic analyzer (patterns pre-detected)
+- No machine learning framework (probabilities pre-calculated)
+- Just a Python dict and some math
+
+This makes Marky:
+- **Fast**: No parsing overhead
+- **Portable**: Works in any Python environment
+- **Reliable**: Deterministic, no randomness
+- **Versionable**: Export as .py files, commit to git
+- **Debuggable**: Can inspect transition tables manually
+
+**The Full Pipeline**
+
+Putting it together:
+
+```
+TRAINING PHASE (Offline, One-Time)
+├─ Codebase → Parser → AST/Semantic Patterns
+├─ Patterns → N-gram Creator → Transition Frequencies
+├─ Frequencies → Probability Calculator → Confidence Scores
+└─ Export → Python Module (models/semantic_model.py)
+
+INFERENCE PHASE (Online, Real-Time)
+├─ Load Model (import models/semantic_model.py)
+├─ Generated Code → Pattern Extractor → Pattern Sequence
+├─ Sequence → N-gram Splitter → (context, next)
+├─ Lookup in TRANSITIONS → Confidence Score
+└─ Return Score to LLM Agent or Validator
+```
+
+This pipeline gives you the best of both worlds:
+- **Learning power**: Captures real patterns from your code
+- **Runtime efficiency**: No expensive computation at inference time
+- **Transparency**: Understand why code matches or doesn't match
+- **Flexibility**: Retrain anytime your codebase evolves
 
 ### 3. Architecture Deep Dive
 
