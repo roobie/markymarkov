@@ -1,4 +1,4 @@
-# Marky: Markov Chain-Based Code Guidance for LLM Agents
+# Marky: Markov Chain-Based Code Guidance for LLM Agents and humans alike
 
 ## Table of Contents
 
