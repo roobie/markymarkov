@@ -10,7 +10,7 @@ This directory contains comprehensive documentation for implementing property-ba
 
 ### The Three Documents
 
-#### 1. 📋 HYPOTHESIS_PROPERTY_TESTING_PLAN.md (21 KB)
+#### 1. 📋 ./HYPOTHESIS_PROPERTY_TESTING_PLAN.md (21 KB)
 **Purpose:** Complete technical specification  
 **Audience:** Developers implementing the tests  
 **Contents:**
@@ -36,7 +36,7 @@ This directory contains comprehensive documentation for implementing property-ba
 
 ---
 
-#### 2. 📊 HYPOTHESIS_ANALYSIS_SUMMARY.md (8 KB)
+#### 2. 📊 ./HYPOTHESIS_ANALYSIS_SUMMARY.md (8 KB)
 **Purpose:** Strategic overview and decision rationale  
 **Audience:** Project managers, team leads, decision makers  
 **Contents:**
@@ -64,7 +64,7 @@ This directory contains comprehensive documentation for implementing property-ba
 
 ---
 
-#### 3. 🚀 HYPOTHESIS_QUICK_REFERENCE.md (9 KB)
+#### 3. 🚀 ./HYPOTHESIS_QUICK_REFERENCE.md (9 KB)
 **Purpose:** Developer cheat sheet and quick lookup  
 **Audience:** Developers writing and maintaining property tests  
 **Contents:**
@@ -102,19 +102,19 @@ This directory contains comprehensive documentation for implementing property-ba
 ```
 ┌─────────────────────────────────────────┐
 │   Understanding the Strategy            │
-│   (HYPOTHESIS_ANALYSIS_SUMMARY.md)      │
+│   (./HYPOTHESIS_ANALYSIS_SUMMARY.md)      │
 │   ↓ What and Why                        │
 └─────────────────────────────────────────┘
               ↓ (Read first to understand strategic direction)
 ┌─────────────────────────────────────────┐
 │   Detailed Specifications               │
-│   (HYPOTHESIS_PROPERTY_TESTING_PLAN.md) │
+│   (./HYPOTHESIS_PROPERTY_TESTING_PLAN.md) │
 │   ↓ Specific Properties to Test         │
 └─────────────────────────────────────────┘
               ↓ (Read to know what to implement)
 ┌─────────────────────────────────────────┐
 │   Developer Quick Reference             │
-│   (HYPOTHESIS_QUICK_REFERENCE.md)       │
+│   (./HYPOTHESIS_QUICK_REFERENCE.md)       │
 │   ↓ How to Write and Debug Tests        │
 └─────────────────────────────────────────┘
               ↓ (Use while coding)
@@ -132,35 +132,35 @@ This directory contains comprehensive documentation for implementing property-ba
 ### I Want to...
 
 #### "Understand what property-based testing is"
-→ Read: `HYPOTHESIS_ANALYSIS_SUMMARY.md` sections:
+→ Read: `./HYPOTHESIS_ANALYSIS_SUMMARY.md` sections:
 - "What is Property-Based Testing?"
 - "Why Hypothesis Improves Our Tests"
 
 #### "Know exactly what properties to test"
-→ Read: `HYPOTHESIS_PROPERTY_TESTING_PLAN.md` sections:
+→ Read: `./HYPOTHESIS_PROPERTY_TESTING_PLAN.md` sections:
 - The 5 class-specific sections (each has 2-6 properties)
 - Cross-Module Properties section
 
 #### "Write my first property test"
-→ Read: `HYPOTHESIS_QUICK_REFERENCE.md` sections:
+→ Read: `./HYPOTHESIS_QUICK_REFERENCE.md` sections:
 - "Quick Start: Writing a Property Test"
 - "Common Patterns"
 
 #### "Debug a failing property"
-→ Read: `HYPOTHESIS_QUICK_REFERENCE.md` section:
+→ Read: `./HYPOTHESIS_QUICK_REFERENCE.md` section:
 - "Debugging Failed Properties"
 - "Common Gotchas"
 
 #### "Understand implementation timeline"
-→ Read: `HYPOTHESIS_ANALYSIS_SUMMARY.md` section:
+→ Read: `./HYPOTHESIS_ANALYSIS_SUMMARY.md` section:
 - "Implementation Roadmap"
 
 #### "Learn Hypothesis strategies"
-→ Read: `HYPOTHESIS_QUICK_REFERENCE.md` section:
+→ Read: `./HYPOTHESIS_QUICK_REFERENCE.md` section:
 - "Common Strategies"
 
 #### "Present this to stakeholders"
-→ Use: `HYPOTHESIS_ANALYSIS_SUMMARY.md`
+→ Use: `./HYPOTHESIS_ANALYSIS_SUMMARY.md`
 - Complete overview with benefits and timeline
 - Perfect for planning meetings
 
@@ -265,10 +265,10 @@ marky/
 │       ├── test_model_types.py               # Existing: 95+ unit tests
 │       └── test_model_types_properties.py    # New: 25+ property tests
 │
-├── HYPOTHESIS_PROPERTY_TESTING_PLAN.md       # ← You are here (Full spec)
-├── HYPOTHESIS_ANALYSIS_SUMMARY.md            # ← Strategic overview
-├── HYPOTHESIS_QUICK_REFERENCE.md             # ← Developer quick ref
-└── HYPOTHESIS_DOCUMENTATION_INDEX.md         # ← This file
+├── ./HYPOTHESIS_PROPERTY_TESTING_PLAN.md       # ← You are here (Full spec)
+├── ./HYPOTHESIS_ANALYSIS_SUMMARY.md            # ← Strategic overview
+├── ./HYPOTHESIS_QUICK_REFERENCE.md             # ← Developer quick ref
+└── ./HYPOTHESIS_DOCUMENTATION_INDEX.md         # ← This file
 
 ```
 
@@ -343,7 +343,7 @@ Result: If ANY suggestion violates this, the test fails
 
 **Status:** ✅ Analysis Complete, Ready for Implementation
 
-**Next Step:** Follow Phase 1-5 implementation roadmap in `HYPOTHESIS_ANALYSIS_SUMMARY.md`
+**Next Step:** Follow Phase 1-5 implementation roadmap in `./HYPOTHESIS_ANALYSIS_SUMMARY.md`
 
 **Estimated ROI:**
 - **Time to implement:** 2-3 hours
@@ -357,10 +357,10 @@ Result: If ANY suggestion violates this, the test fails
 
 | Document | Version | Size | Date |
 |----------|---------|------|------|
-| HYPOTHESIS_PROPERTY_TESTING_PLAN.md | 1.0 | 21 KB | Feb 8, 2026 |
-| HYPOTHESIS_ANALYSIS_SUMMARY.md | 1.0 | 8 KB | Feb 8, 2026 |
-| HYPOTHESIS_QUICK_REFERENCE.md | 1.0 | 9 KB | Feb 8, 2026 |
-| HYPOTHESIS_DOCUMENTATION_INDEX.md | 1.0 | This | Feb 8, 2026 |
+| ./HYPOTHESIS_PROPERTY_TESTING_PLAN.md | 1.0 | 21 KB | Feb 8, 2026 |
+| ./HYPOTHESIS_ANALYSIS_SUMMARY.md | 1.0 | 8 KB | Feb 8, 2026 |
+| ./HYPOTHESIS_QUICK_REFERENCE.md | 1.0 | 9 KB | Feb 8, 2026 |
+| ./HYPOTHESIS_DOCUMENTATION_INDEX.md | 1.0 | This | Feb 8, 2026 |
 
 ---
 

@@ -213,7 +213,7 @@ class SemanticNode:
 
 1. ✅ **PHASE_1_2_COMPLETE.md** (52 semantic patterns, full API reference)
 2. ✅ **PHASE_1_3_COMPLETE.md** (trainer details, export formats, examples)
-3. ✅ **NEXT_STEPS.md** (clear roadmap for Phase 1.4 and beyond)
+3. ✅ **./NEXT_STEPS.md** (clear roadmap for Phase 1.4 and beyond)
 4. ✅ **This document** (session summary with context)
 
 ---
@@ -350,7 +350,7 @@ Once Phase 1.4 is complete, Phase 2 can begin:
 - src/interfaces/model_types.py (Phase 1.4, next)
 
 **Documentation**:
-- NEXT_STEPS.md (Phase 1.4 roadmap)
+- ./NEXT_STEPS.md (Phase 1.4 roadmap)
 - PHASE_1_2_COMPLETE.md (Phase 1.2 details)
 - PHASE_1_3_COMPLETE.md (Phase 1.3 details)
 - MINDMAP.md (project status tracking)

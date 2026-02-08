@@ -11,13 +11,13 @@
 All planning documentation has been created and validated:
 
 ### Documentation Created (7 documents)
-1. ✅ **QUICK_REFERENCE.md** (8KB) - 2-minute overview
-2. ✅ **PLAN_SUMMARY.md** (12KB) - Executive summary
-3. ✅ **IMPLEMENTATION_PLAN.md** (16KB) - Detailed specifications
-4. ✅ **ARCHITECTURE_AND_DATAFLOW.md** (15KB) - Technical reference
+1. ✅ **./QUICK_REFERENCE.md** (8KB) - 2-minute overview
+2. ✅ **./PLAN_SUMMARY.md** (12KB) - Executive summary
+3. ✅ **./IMPLEMENTATION_PLAN.md** (16KB) - Detailed specifications
+4. ✅ **./ARCHITECTURE_AND_DATAFLOW.md** (15KB) - Technical reference
 5. ✅ **IMPLEMENTATION_ROADMAP.mindmap** (5KB) - Visual roadmap
 6. ✅ **PHASE_1_TASKS.md** (14KB) - Task breakdown
-7. ✅ **INDEX.md** (10KB) - Navigation guide
+7. ✅ **./INDEX.md** (10KB) - Navigation guide
 
 **Total Planning Documentation**: ~80KB, 30+ pages
 
@@ -144,15 +144,15 @@ tests/
 ### Documentation
 ```
 Planning/
-├── INDEX.md                           ✅ (10 KB)
-├── QUICK_REFERENCE.md                 ✅ (8 KB)
-├── PLAN_SUMMARY.md                    ✅ (12 KB)
-├── IMPLEMENTATION_PLAN.md             ✅ (16 KB)
-├── ARCHITECTURE_AND_DATAFLOW.md       ✅ (15 KB)
+├── ./INDEX.md                           ✅ (10 KB)
+├── ./QUICK_REFERENCE.md                 ✅ (8 KB)
+├── ./PLAN_SUMMARY.md                    ✅ (12 KB)
+├── ./IMPLEMENTATION_PLAN.md             ✅ (16 KB)
+├── ./ARCHITECTURE_AND_DATAFLOW.md       ✅ (15 KB)
 ├── IMPLEMENTATION_ROADMAP.mindmap     ✅ (5 KB)
 ├── PHASE_1_TASKS.md                   ✅ (14 KB)
 ├── PHASE_1_1_COMPLETE.md              ✅ (8 KB)
-├── IMPLEMENTATION_STATUS.md           ✅ (THIS FILE)
+├── ./IMPLEMENTATION_STATUS.md           ✅ (THIS FILE)
 └── primer.md                          ✅ (96 KB, original)
 
 Phase 1.1/
@@ -280,14 +280,14 @@ Phase 1.1/
 ## How to Get Started
 
 ### For Developers
-1. Read: `QUICK_REFERENCE.md` (5 min)
+1. Read: `./QUICK_REFERENCE.md` (5 min)
 2. Read: `PHASE_1_TASKS.md` (10 min)
 3. Review: `src/trainers/ast_trainer.py` (20 min)
 4. Review: `tests/trainers/test_ast_trainer.py` (20 min)
 5. Start Phase 1.2: `SemanticPatternExtractor`
 
 ### For Project Managers
-1. Read: `PLAN_SUMMARY.md` (15 min)
+1. Read: `./PLAN_SUMMARY.md` (15 min)
 2. Review: `IMPLEMENTATION_ROADMAP.mindmap` (visual)
 3. Check: Timeline and burn down (above)
 4. Track: Phase progress (daily updates)
@@ -308,15 +308,15 @@ All project files are in `/home/jani/devel/marky/`:
 ```
 marky/
 ├── Planning Documents/        (in root)
-│   ├── INDEX.md                       ✅
-│   ├── QUICK_REFERENCE.md             ✅
-│   ├── PLAN_SUMMARY.md                ✅
-│   ├── IMPLEMENTATION_PLAN.md          ✅
-│   ├── ARCHITECTURE_AND_DATAFLOW.md    ✅
+│   ├── ./INDEX.md                       ✅
+│   ├── ./QUICK_REFERENCE.md             ✅
+│   ├── ./PLAN_SUMMARY.md                ✅
+│   ├── ./IMPLEMENTATION_PLAN.md          ✅
+│   ├── ./ARCHITECTURE_AND_DATAFLOW.md    ✅
 │   ├── IMPLEMENTATION_ROADMAP.mindmap  ✅
 │   ├── PHASE_1_TASKS.md                ✅
 │   ├── PHASE_1_1_COMPLETE.md           ✅
-│   ├── IMPLEMENTATION_STATUS.md        ✅ (this file)
+│   ├── ./IMPLEMENTATION_STATUS.md        ✅ (this file)
 │   └── primer.md                       ✅
 │
 ├── src/                      (Implementation)
@@ -385,9 +385,9 @@ From a discussion about using Markov chains for coding agents, we:
 ## Contact & Questions
 
 All documentation is self-contained and navigable:
-- Start with `INDEX.md` for complete navigation
-- Use `QUICK_REFERENCE.md` for quick answers
-- Refer to `ARCHITECTURE_AND_DATAFLOW.md` for technical details
+- Start with `./INDEX.md` for complete navigation
+- Use `./QUICK_REFERENCE.md` for quick answers
+- Refer to `./ARCHITECTURE_AND_DATAFLOW.md` for technical details
 - Check `PHASE_1_TASKS.md` for current work items
 
 ---

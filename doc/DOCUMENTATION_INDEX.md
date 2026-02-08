@@ -3,13 +3,13 @@
 ## Quick Navigation
 
 ### 🚀 Getting Started
-- **[QUICK_REFERENCE.md](./QUICK_REFERENCE.md)** - 2-minute project overview
+- **[./QUICK_REFERENCE.md](././QUICK_REFERENCE.md)** - 2-minute project overview
 - **[README.md](./README.md)** - Project homepage
-- **[VALIDATION_GUIDE.md](./VALIDATION_GUIDE.md)** - How to use the validate command
+- **[./VALIDATION_GUIDE.md](././VALIDATION_GUIDE.md)** - How to use the validate command
 
 ### 🏗️ Architecture & Design
-- **[ARCHITECTURE_AND_DATAFLOW.md](./ARCHITECTURE_AND_DATAFLOW.md)** - Technical architecture
-- **[PROJECT_COMPLETION_SUMMARY.md](./PROJECT_COMPLETION_SUMMARY.md)** - Full project overview
+- **[./ARCHITECTURE_AND_DATAFLOW.md](././ARCHITECTURE_AND_DATAFLOW.md)** - Technical architecture
+- **[./PROJECT_COMPLETION_SUMMARY.md](././PROJECT_COMPLETION_SUMMARY.md)** - Full project overview
 - **[DESIGN_DECISIONS.md](./DESIGN_DECISIONS.md)** (if exists) - Why we made certain choices
 
 ### 📊 Implementation Status
@@ -20,37 +20,37 @@
 - **[IMPLEMENTATION_ROADMAP.mindmap](./IMPLEMENTATION_ROADMAP.mindmap)** - Phase progress tracker
 
 ### 🧪 Testing & Quality
-- **[TEST_RESULTS_FINAL.md](./TEST_RESULTS_FINAL.md)** - Complete test coverage report (170/170)
-- **[DIAGNOSTIC_IMPROVEMENTS.md](./DIAGNOSTIC_IMPROVEMENTS.md)** - Location tracking & diagnostics
+- **[./TEST_RESULTS_FINAL.md](././TEST_RESULTS_FINAL.md)** - Complete test coverage report (170/170)
+- **[./DIAGNOSTIC_IMPROVEMENTS.md](././DIAGNOSTIC_IMPROVEMENTS.md)** - Location tracking & diagnostics
 
 ### 📝 Documentation & Session
-- **[SESSION_SUMMARY.md](./SESSION_SUMMARY.md)** - This session's accomplishments
-- **[INDEX.md](./INDEX.md)** - Original documentation index
-- **[BLOG.md](./BLOG.md)** - Blog post outline (524 lines, ready for expansion)
+- **[./SESSION_SUMMARY.md](././SESSION_SUMMARY.md)** - This session's accomplishments
+- **[./INDEX.md](././INDEX.md)** - Original documentation index
+- **[./BLOG.md](././BLOG.md)** - Blog post outline (524 lines, ready for expansion)
 
 ---
 
 ## By Topic
 
 ### For Users
-1. Start with: [QUICK_REFERENCE.md](./QUICK_REFERENCE.md)
-2. Learn commands: [VALIDATION_GUIDE.md](./VALIDATION_GUIDE.md)
+1. Start with: [./QUICK_REFERENCE.md](././QUICK_REFERENCE.md)
+2. Learn commands: [./VALIDATION_GUIDE.md](././VALIDATION_GUIDE.md)
 3. Try: `python -m src demo`
 
 ### For Developers
-1. Architecture: [ARCHITECTURE_AND_DATAFLOW.md](./ARCHITECTURE_AND_DATAFLOW.md)
+1. Architecture: [./ARCHITECTURE_AND_DATAFLOW.md](././ARCHITECTURE_AND_DATAFLOW.md)
 2. Implementation: [PHASE_1_COMPLETE.md](./PHASE_1_COMPLETE.md) → [PHASE_2_2_VALIDATION_COMPLETE.md](./PHASE_2_2_VALIDATION_COMPLETE.md)
 3. Code: Browse `src/` directory
 
 ### For Project Managers
-1. Overview: [PROJECT_COMPLETION_SUMMARY.md](./PROJECT_COMPLETION_SUMMARY.md)
-2. Status: [SESSION_SUMMARY.md](./SESSION_SUMMARY.md)
+1. Overview: [./PROJECT_COMPLETION_SUMMARY.md](././PROJECT_COMPLETION_SUMMARY.md)
+2. Status: [./SESSION_SUMMARY.md](././SESSION_SUMMARY.md)
 3. Progress: [IMPLEMENTATION_ROADMAP.mindmap](./IMPLEMENTATION_ROADMAP.mindmap)
 
 ### For Blog/Marketing
-1. Framework: [BLOG.md](./BLOG.md)
+1. Framework: [./BLOG.md](././BLOG.md)
 2. Technical details: [PHASE_2_2_VALIDATION_COMPLETE.md](./PHASE_2_2_VALIDATION_COMPLETE.md)
-3. Achievements: [PROJECT_COMPLETION_SUMMARY.md](./PROJECT_COMPLETION_SUMMARY.md)
+3. Achievements: [./PROJECT_COMPLETION_SUMMARY.md](././PROJECT_COMPLETION_SUMMARY.md)
 
 ---
 
@@ -58,12 +58,12 @@
 
 ### Documentation Files (Root)
 ```
-├── INDEX.md                          # Original docs index
-├── QUICK_REFERENCE.md                # 2-min overview
-├── ARCHITECTURE_AND_DATAFLOW.md      # Technical architecture
+├── ./INDEX.md                          # Original docs index
+├── ./QUICK_REFERENCE.md                # 2-min overview
+├── ./ARCHITECTURE_AND_DATAFLOW.md      # Technical architecture
 ├── IMPLEMENTATION_ROADMAP.mindmap    # Phase tracker
-├── IMPLEMENTATION_PLAN.md            # Original planning
-├── PLAN_SUMMARY.md                   # Plan overview
+├── ./IMPLEMENTATION_PLAN.md            # Original planning
+├── ./PLAN_SUMMARY.md                   # Plan overview
 │
 ├── PHASE_1_COMPLETE.md               # Phase 1 completion
 ├── PHASE_1_1_COMPLETE.md             # Phase 1.1 (AST Trainer)
@@ -76,14 +76,14 @@
 ├── PHASE_2_1_COMPLETE.md             # Phase 2.1 (ASTCodeGuide)
 ├── PHASE_2_2_VALIDATION_COMPLETE.md  # Phase 2.2-2.4 (Validation)
 │
-├── PROJECT_COMPLETION_SUMMARY.md     # Full project overview
-├── VALIDATION_GUIDE.md               # User guide (validate command)
-├── DIAGNOSTIC_IMPROVEMENTS.md        # Location tracking docs
-├── TEST_RESULTS_FINAL.md             # Test coverage (170/170)
+├── ./PROJECT_COMPLETION_SUMMARY.md     # Full project overview
+├── ./VALIDATION_GUIDE.md               # User guide (validate command)
+├── ./DIAGNOSTIC_IMPROVEMENTS.md        # Location tracking docs
+├── ./TEST_RESULTS_FINAL.md             # Test coverage (170/170)
 │
-├── SESSION_SUMMARY.md                # This session summary
-├── BLOG.md                           # Blog post outline
-└── DOCUMENTATION_INDEX.md            # This file
+├── ./SESSION_SUMMARY.md                # This session summary
+├── ./BLOG.md                           # Blog post outline
+└── ./DOCUMENTATION_INDEX.md            # This file
 ```
 
 ### Source Code
@@ -156,24 +156,24 @@ tests/
 - `feb84ab` - All tests passing
 
 ### Documentation Added
-- SESSION_SUMMARY.md (this session)
-- PROJECT_COMPLETION_SUMMARY.md
-- VALIDATION_GUIDE.md
-- TEST_RESULTS_FINAL.md
-- DIAGNOSTIC_IMPROVEMENTS.md
-- BLOG.md (outline)
-- DOCUMENTATION_INDEX.md (this file)
+- ./SESSION_SUMMARY.md (this session)
+- ./PROJECT_COMPLETION_SUMMARY.md
+- ./VALIDATION_GUIDE.md
+- ./TEST_RESULTS_FINAL.md
+- ./DIAGNOSTIC_IMPROVEMENTS.md
+- ./BLOG.md (outline)
+- ./DOCUMENTATION_INDEX.md (this file)
 
 ---
 
 ## How to Use This Index
 
-1. **First time?** → QUICK_REFERENCE.md
-2. **Want to use Marky?** → VALIDATION_GUIDE.md
-3. **Want to understand it?** → ARCHITECTURE_AND_DATAFLOW.md
+1. **First time?** → ./QUICK_REFERENCE.md
+2. **Want to use Marky?** → ./VALIDATION_GUIDE.md
+3. **Want to understand it?** → ./ARCHITECTURE_AND_DATAFLOW.md
 4. **Want to modify it?** → PHASE_2_2_VALIDATION_COMPLETE.md
-5. **Want project status?** → PROJECT_COMPLETION_SUMMARY.md
-6. **Want all details?** → This file (DOCUMENTATION_INDEX.md)
+5. **Want project status?** → ./PROJECT_COMPLETION_SUMMARY.md
+6. **Want all details?** → This file (./DOCUMENTATION_INDEX.md)
 
 ---
 
@@ -193,8 +193,8 @@ python -m src demo
 python -m src validate examples/python3/semantic_model.py src/__main__.py
 
 # Check specific documentation
-cat PROJECT_COMPLETION_SUMMARY.md
-cat VALIDATION_GUIDE.md
+cat ./PROJECT_COMPLETION_SUMMARY.md
+cat ./VALIDATION_GUIDE.md
 ```
 
 ---
@@ -202,9 +202,9 @@ cat VALIDATION_GUIDE.md
 ## Contact & Questions
 
 For questions about:
-- **Architecture**: See ARCHITECTURE_AND_DATAFLOW.md
-- **Usage**: See VALIDATION_GUIDE.md
-- **Status**: See SESSION_SUMMARY.md
+- **Architecture**: See ./ARCHITECTURE_AND_DATAFLOW.md
+- **Usage**: See ./VALIDATION_GUIDE.md
+- **Status**: See ./SESSION_SUMMARY.md
 - **Design decisions**: See individual PHASE files
 
 ---

@@ -169,7 +169,7 @@ Both trainers extract patterns from Python code, build probabilistic models of s
 
 ```
 marky/
-├── IMPLEMENTATION_PLAN.md      ← Detailed phase breakdown
+├── ./IMPLEMENTATION_PLAN.md      ← Detailed phase breakdown
 ├── IMPLEMENTATION_ROADMAP.mindmap ← Visual overview
 ├── primer.md                   ← Original discussion/ideas
 ├── src/

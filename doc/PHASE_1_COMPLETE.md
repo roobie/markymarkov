@@ -197,17 +197,17 @@ Current Code
 - ✅ PHASE_1_COMPLETE.md (This document)
 
 ### Planning Documents
-- ✅ PLAN_SUMMARY.md (Executive overview)
-- ✅ IMPLEMENTATION_PLAN.md (Detailed roadmap)
-- ✅ ARCHITECTURE_AND_DATAFLOW.md (System design)
+- ✅ ./PLAN_SUMMARY.md (Executive overview)
+- ✅ ./IMPLEMENTATION_PLAN.md (Detailed roadmap)
+- ✅ ./ARCHITECTURE_AND_DATAFLOW.md (System design)
 - ✅ PHASE_1_TASKS.md (Task breakdown)
-- ✅ QUICK_REFERENCE.md (Quick lookup guide)
-- ✅ INDEX.md (Documentation hub)
+- ✅ ./QUICK_REFERENCE.md (Quick lookup guide)
+- ✅ ./INDEX.md (Documentation hub)
 
 ### Session Documents
 - ✅ SESSION_SUMMARY_PHASE_1_3.md (2-phase summary)
-- ✅ NEXT_STEPS.md (Phase 1.4 roadmap)
-- ✅ IMPLEMENTATION_STATUS.md (Current state)
+- ✅ ./NEXT_STEPS.md (Phase 1.4 roadmap)
+- ✅ ./IMPLEMENTATION_STATUS.md (Current state)
 
 ---
 
@@ -348,11 +348,11 @@ marky/
     ├── PHASE_1_2_COMPLETE.md                 (✅)
     ├── PHASE_1_1_COMPLETE.md                 (✅)
     ├── PHASE_1_TASKS.md                      (✅)
-    ├── IMPLEMENTATION_PLAN.md                (✅)
-    ├── ARCHITECTURE_AND_DATAFLOW.md          (✅)
-    ├── QUICK_REFERENCE.md                    (✅)
-    ├── IMPLEMENTATION_STATUS.md              (✅)
-    ├── INDEX.md                              (✅)
+    ├── ./IMPLEMENTATION_PLAN.md                (✅)
+    ├── ./ARCHITECTURE_AND_DATAFLOW.md          (✅)
+    ├── ./QUICK_REFERENCE.md                    (✅)
+    ├── ./IMPLEMENTATION_STATUS.md              (✅)
+    ├── ./INDEX.md                              (✅)
     └── SESSION_SUMMARY_PHASE_1_3.md          (✅)
 ```
 
@@ -479,9 +479,9 @@ Timeline:
 
 **Key Docs**:
 - PHASE_1_COMPLETE.md (this document)
-- INDEX.md (documentation hub)
-- QUICK_REFERENCE.md (2-minute overview)
-- NEXT_STEPS.md (Phase 2 roadmap)
+- ./INDEX.md (documentation hub)
+- ./QUICK_REFERENCE.md (2-minute overview)
+- ./NEXT_STEPS.md (Phase 2 roadmap)
 
 ---
 

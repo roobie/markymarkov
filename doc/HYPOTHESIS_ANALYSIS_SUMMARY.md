@@ -2,7 +2,7 @@
 
 **Generated:** February 8, 2026  
 **Status:** Planning Complete  
-**Related Document:** `HYPOTHESIS_PROPERTY_TESTING_PLAN.md`  
+**Related Document:** `./HYPOTHESIS_PROPERTY_TESTING_PLAN.md`  
 **Mindmap Node:** [37]
 
 ## Quick Summary
@@ -173,7 +173,7 @@ After implementation:
 
 **Risk:** Properties are hard to understand  
 **Mitigation:** Each property has clear docstring and example  
-**Action:** Reference `HYPOTHESIS_PROPERTY_TESTING_PLAN.md` in code
+**Action:** Reference `./HYPOTHESIS_PROPERTY_TESTING_PLAN.md` in code
 
 ## Hypothesis Framework Features
 
@@ -201,7 +201,7 @@ From the quickstart, we'll use:
 
 ## References
 
-- **Full Plan:** `HYPOTHESIS_PROPERTY_TESTING_PLAN.md`
+- **Full Plan:** `./HYPOTHESIS_PROPERTY_TESTING_PLAN.md`
 - **Mindmap Node:** [37]
 - **Hypothesis Docs:** https://hypothesis.readthedocs.io/
 - **Quickstart:** https://hypothesis.readthedocs.io/en/latest/quickstart.html

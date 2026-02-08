@@ -25,35 +25,35 @@
 
 4. DOCUMENTATION SUITE (4 comprehensive guides, 1,968 lines, 55+ KB)
 
-   A. HYPOTHESIS_PROPERTY_TESTING_PLAN.md (21 KB)
+   A. ./HYPOTHESIS_PROPERTY_TESTING_PLAN.md (21 KB)
       ✅ Complete technical specification
       ✅ 6 sections covering each dataclass
       ✅ 25+ properties with code examples
       ✅ Implementation strategy
       ✅ Success metrics
 
-   B. HYPOTHESIS_ANALYSIS_SUMMARY.md (8 KB)
+   B. ./HYPOTHESIS_ANALYSIS_SUMMARY.md (8 KB)
       ✅ Strategic overview
       ✅ What and why property-based testing
       ✅ Benefits with examples
       ✅ Implementation roadmap
       ✅ Risk mitigation
 
-   C. HYPOTHESIS_QUICK_REFERENCE.md (9 KB)
+   C. ./HYPOTHESIS_QUICK_REFERENCE.md (9 KB)
       ✅ Developer quick reference
       ✅ Common strategies and patterns
       ✅ Debugging guide
       ✅ Performance tips
       ✅ Common gotchas
 
-   D. HYPOTHESIS_DOCUMENTATION_INDEX.md (12 KB)
+   D. ./HYPOTHESIS_DOCUMENTATION_INDEX.md (12 KB)
       ✅ Navigation guide
       ✅ Document relationships
       ✅ Quick navigation
       ✅ Statistics
       ✅ FAQ
 
-   E. HYPOTHESIS_IMPLEMENTATION_REPORT.md (12 KB)
+   E. ./HYPOTHESIS_IMPLEMENTATION_REPORT.md (12 KB)
       ✅ Completion report
       ✅ Metrics and results
       ✅ Benefits realized
@@ -152,9 +152,9 @@ Run specific property:
   uv run pytest tests/interfaces/test_model_types_properties.py::ClassName::method -v
 
 For developers:
-  1. Read HYPOTHESIS_QUICK_REFERENCE.md for patterns
+  1. Read ./HYPOTHESIS_QUICK_REFERENCE.md for patterns
   2. Run tests with -v flag to see examples
-  3. Use HYPOTHESIS_PROPERTY_TESTING_PLAN.md for detailed specs
+  3. Use ./HYPOTHESIS_PROPERTY_TESTING_PLAN.md for detailed specs
 
 ================================================================================
                               FILE SUMMARY
@@ -162,11 +162,11 @@ For developers:
 
 New Files Created:
   ✅ tests/interfaces/test_model_types_properties.py        (19.7 KB)
-  ✅ HYPOTHESIS_PROPERTY_TESTING_PLAN.md                    (21 KB)
-  ✅ HYPOTHESIS_ANALYSIS_SUMMARY.md                         (8 KB)
-  ✅ HYPOTHESIS_QUICK_REFERENCE.md                          (9 KB)
-  ✅ HYPOTHESIS_DOCUMENTATION_INDEX.md                      (12 KB)
-  ✅ HYPOTHESIS_IMPLEMENTATION_REPORT.md                    (12 KB)
+  ✅ ./HYPOTHESIS_PROPERTY_TESTING_PLAN.md                    (21 KB)
+  ✅ ./HYPOTHESIS_ANALYSIS_SUMMARY.md                         (8 KB)
+  ✅ ./HYPOTHESIS_QUICK_REFERENCE.md                          (9 KB)
+  ✅ ./HYPOTHESIS_DOCUMENTATION_INDEX.md                      (12 KB)
+  ✅ ./HYPOTHESIS_IMPLEMENTATION_REPORT.md                    (12 KB)
 
 Files Modified:
   ✅ src/interfaces/model_types.py                          (1 line fix)
@@ -224,11 +224,11 @@ Long term:
 ================================================================================
 
 Related Documentation:
-  - HYPOTHESIS_PROPERTY_TESTING_PLAN.md (full specs)
-  - HYPOTHESIS_ANALYSIS_SUMMARY.md (strategy)
-  - HYPOTHESIS_QUICK_REFERENCE.md (developer guide)
-  - HYPOTHESIS_DOCUMENTATION_INDEX.md (navigation)
-  - HYPOTHESIS_IMPLEMENTATION_REPORT.md (completion report)
+  - ./HYPOTHESIS_PROPERTY_TESTING_PLAN.md (full specs)
+  - ./HYPOTHESIS_ANALYSIS_SUMMARY.md (strategy)
+  - ./HYPOTHESIS_QUICK_REFERENCE.md (developer guide)
+  - ./HYPOTHESIS_DOCUMENTATION_INDEX.md (navigation)
+  - ./HYPOTHESIS_IMPLEMENTATION_REPORT.md (completion report)
 
 Test File:
   - tests/interfaces/test_model_types_properties.py

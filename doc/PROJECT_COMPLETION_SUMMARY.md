@@ -212,14 +212,14 @@ marky/
 │       ├── ast_model.py              # Pre-trained AST model
 │       └── semantic_model.py         # Pre-trained semantic model
 ├── docs/
-│   ├── INDEX.md                      # Navigation hub
-│   ├── QUICK_REFERENCE.md            # 2-min overview
-│   ├── ARCHITECTURE_AND_DATAFLOW.md  # Technical details
+│   ├── ./INDEX.md                      # Navigation hub
+│   ├── ./QUICK_REFERENCE.md            # 2-min overview
+│   ├── ./ARCHITECTURE_AND_DATAFLOW.md  # Technical details
 │   ├── PHASE_1_COMPLETE.md          # Phase 1 summary
 │   ├── PHASE_2_2_VALIDATION_COMPLETE.md # Phase 2 summary
-│   ├── VALIDATION_GUIDE.md           # User guide
-│   ├── TEST_RESULTS_FINAL.md         # Test results
-│   └── PROJECT_COMPLETION_SUMMARY.md # This file
+│   ├── ./VALIDATION_GUIDE.md           # User guide
+│   ├── ./TEST_RESULTS_FINAL.md         # Test results
+│   └── ./PROJECT_COMPLETION_SUMMARY.md # This file
 ├── IMPLEMENTATION_ROADMAP.mindmap    # Phase progress
 └── README.md                         # Project overview
 ```
@@ -320,14 +320,14 @@ python -m src demo
 
 All major documents have been written:
 
-1. **INDEX.md** - Navigation hub for all documentation
-2. **QUICK_REFERENCE.md** - 2-minute project overview
-3. **ARCHITECTURE_AND_DATAFLOW.md** - Technical architecture
+1. **./INDEX.md** - Navigation hub for all documentation
+2. **./QUICK_REFERENCE.md** - 2-minute project overview
+3. **./ARCHITECTURE_AND_DATAFLOW.md** - Technical architecture
 4. **PHASE_1_COMPLETE.md** - Phase 1 summary (foundation)
 5. **PHASE_2_2_VALIDATION_COMPLETE.md** - Phase 2 summary (integration)
-6. **VALIDATION_GUIDE.md** - CLI user guide
-7. **TEST_RESULTS_FINAL.md** - Test coverage report
-8. **PROJECT_COMPLETION_SUMMARY.md** - This file
+6. **./VALIDATION_GUIDE.md** - CLI user guide
+7. **./TEST_RESULTS_FINAL.md** - Test coverage report
+8. **./PROJECT_COMPLETION_SUMMARY.md** - This file
 
 ---
 

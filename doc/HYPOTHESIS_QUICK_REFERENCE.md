@@ -214,9 +214,9 @@ tests/
 │   └── test_model_types_properties.py   # New: property tests (25+ properties)
 │
 docs/
-├── HYPOTHESIS_PROPERTY_TESTING_PLAN.md  # Full specification
-├── HYPOTHESIS_ANALYSIS_SUMMARY.md       # Overview and strategy
-└── HYPOTHESIS_QUICK_REFERENCE.md        # This file
+├── ./HYPOTHESIS_PROPERTY_TESTING_PLAN.md  # Full specification
+├── ./HYPOTHESIS_ANALYSIS_SUMMARY.md       # Overview and strategy
+└── ./HYPOTHESIS_QUICK_REFERENCE.md        # This file
 ```
 
 ## Running Tests
@@ -316,8 +316,8 @@ def test_warning_preserved(w):
 
 ## Links
 
-- **Full Plan:** Read `HYPOTHESIS_PROPERTY_TESTING_PLAN.md` for detailed property specifications
-- **Summary:** Read `HYPOTHESIS_ANALYSIS_SUMMARY.md` for strategic overview
+- **Full Plan:** Read `./HYPOTHESIS_PROPERTY_TESTING_PLAN.md` for detailed property specifications
+- **Summary:** Read `./HYPOTHESIS_ANALYSIS_SUMMARY.md` for strategic overview
 - **Hypothesis Docs:** https://hypothesis.readthedocs.io/
 - **Strategies:** https://hypothesis.readthedocs.io/en/latest/reference/strategies.html
 
@@ -325,7 +325,7 @@ def test_warning_preserved(w):
 
 Refer to:
 1. This quick reference for syntax/patterns
-2. `HYPOTHESIS_PROPERTY_TESTING_PLAN.md` for property details
+2. `./HYPOTHESIS_PROPERTY_TESTING_PLAN.md` for property details
 3. Hypothesis official docs for advanced features
 4. Existing tests in `test_model_types.py` for examples
 

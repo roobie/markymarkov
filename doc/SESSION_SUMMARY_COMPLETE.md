@@ -228,16 +228,16 @@ completions = semantic_guide.get_pattern_completions(partial_code)
 - ✅ **PHASE_2_1_COMPLETE.md** - AST guide implementation
 
 ### Planning Documents
-- ✅ **IMPLEMENTATION_PLAN.md** - Overall roadmap
+- ✅ **./IMPLEMENTATION_PLAN.md** - Overall roadmap
 - ✅ **PHASE_1_TASKS.md** - Phase 1 breakdown
 - ✅ **PHASE_2_SPECIFICATION.md** - Phase 2 detailed spec
-- ✅ **ARCHITECTURE_AND_DATAFLOW.md** - System design
-- ✅ **QUICK_REFERENCE.md** - 2-minute overview
+- ✅ **./ARCHITECTURE_AND_DATAFLOW.md** - System design
+- ✅ **./QUICK_REFERENCE.md** - 2-minute overview
 
 ### Session Documents
 - ✅ **SESSION_SUMMARY_PHASE_1_3.md** - Phase 1.2-1.3 summary
-- ✅ **NEXT_STEPS.md** - Phase 1.4 roadmap
-- ✅ **IMPLEMENTATION_STATUS.md** - Current project status
+- ✅ **./NEXT_STEPS.md** - Phase 1.4 roadmap
+- ✅ **./IMPLEMENTATION_STATUS.md** - Current project status
 
 ---
 
@@ -273,10 +273,10 @@ marky/
 └── Documentation/                          ✅ (10+ files)
     ├── PHASE_1_COMPLETE.md
     ├── PHASE_2_1_COMPLETE.md
-    ├── IMPLEMENTATION_PLAN.md
-    ├── ARCHITECTURE_AND_DATAFLOW.md
-    ├── QUICK_REFERENCE.md
-    ├── INDEX.md
+    ├── ./IMPLEMENTATION_PLAN.md
+    ├── ./ARCHITECTURE_AND_DATAFLOW.md
+    ├── ./QUICK_REFERENCE.md
+    ├── ./INDEX.md
     └── Session summaries...
 ```
 

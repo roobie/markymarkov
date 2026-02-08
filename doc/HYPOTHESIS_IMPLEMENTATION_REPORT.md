@@ -60,14 +60,14 @@ def has_context(self, key: str) -> bool:
 
 ### 3. Documentation Suite
 
-#### A. HYPOTHESIS_PROPERTY_TESTING_PLAN.md (21 KB)
+#### A. ./HYPOTHESIS_PROPERTY_TESTING_PLAN.md (21 KB)
 Complete technical specification with:
 - 6 sections covering each dataclass with 2-6 properties each
 - Code examples for every property
 - Implementation strategy (5 phases)
 - Success metrics
 
-#### B. HYPOTHESIS_ANALYSIS_SUMMARY.md (8 KB)
+#### B. ./HYPOTHESIS_ANALYSIS_SUMMARY.md (8 KB)
 Strategic overview with:
 - What property-based testing is (with visual diagram)
 - Why Hypothesis improves our tests (5 reasons)
@@ -76,7 +76,7 @@ Strategic overview with:
 - Implementation roadmap with time estimates
 - Risk mitigation
 
-#### C. HYPOTHESIS_QUICK_REFERENCE.md (9 KB)
+#### C. ./HYPOTHESIS_QUICK_REFERENCE.md (9 KB)
 Developer quick reference with:
 - Common strategies
 - Common patterns
@@ -85,7 +85,7 @@ Developer quick reference with:
 - Checklists
 - Gotchas with examples
 
-#### D. HYPOTHESIS_DOCUMENTATION_INDEX.md (12 KB)
+#### D. ./HYPOTHESIS_DOCUMENTATION_INDEX.md (12 KB)
 Navigation guide with:
 - Document relationships
 - Quick navigation
@@ -280,11 +280,11 @@ marky/
 │       └── test_model_types_properties.py           [NEW: 25 property tests]
 │
 └── Documentation/
-    ├── HYPOTHESIS_PROPERTY_TESTING_PLAN.md          [21 KB - Full spec]
-    ├── HYPOTHESIS_ANALYSIS_SUMMARY.md               [8 KB - Strategy]
-    ├── HYPOTHESIS_QUICK_REFERENCE.md                [9 KB - Dev reference]
-    ├── HYPOTHESIS_DOCUMENTATION_INDEX.md            [12 KB - Navigation]
-    └── HYPOTHESIS_IMPLEMENTATION_REPORT.md          [This file]
+    ├── ./HYPOTHESIS_PROPERTY_TESTING_PLAN.md          [21 KB - Full spec]
+    ├── ./HYPOTHESIS_ANALYSIS_SUMMARY.md               [8 KB - Strategy]
+    ├── ./HYPOTHESIS_QUICK_REFERENCE.md                [9 KB - Dev reference]
+    ├── ./HYPOTHESIS_DOCUMENTATION_INDEX.md            [12 KB - Navigation]
+    └── ./HYPOTHESIS_IMPLEMENTATION_REPORT.md          [This file]
 ```
 
 ---
@@ -304,15 +304,15 @@ uv run pytest tests/ -v
 ```
 
 ### Adding New Properties
-1. Read: `HYPOTHESIS_QUICK_REFERENCE.md` for patterns and strategies
+1. Read: `./HYPOTHESIS_QUICK_REFERENCE.md` for patterns and strategies
 2. Identify: What invariant should always be true?
 3. Write: Property test using `@given` decorator
 4. Test: Run `uv run pytest tests/interfaces/test_model_types_properties.py -v`
-5. Document: Update HYPOTHESIS_DOCUMENTATION_INDEX.md if adding new class
+5. Document: Update ./HYPOTHESIS_DOCUMENTATION_INDEX.md if adding new class
 
 ### Debugging Failed Properties
 1. Hypothesis shows exact failing input
-2. Refer to: `HYPOTHESIS_QUICK_REFERENCE.md` "Debugging Failed Properties"
+2. Refer to: `./HYPOTHESIS_QUICK_REFERENCE.md` "Debugging Failed Properties"
 3. Check: Are strategies too broad? Use constraints (min_value, max_value, etc.)
 4. Use: `assume()` for complex filtering
 5. Document: What did the bug teach us?
@@ -365,10 +365,10 @@ Consider following this implementation pattern.
 
 ## References
 
-- **Implementation Plan:** `HYPOTHESIS_PROPERTY_TESTING_PLAN.md`
-- **Strategic Overview:** `HYPOTHESIS_ANALYSIS_SUMMARY.md`
-- **Developer Quick Reference:** `HYPOTHESIS_QUICK_REFERENCE.md`
-- **Navigation Guide:** `HYPOTHESIS_DOCUMENTATION_INDEX.md`
+- **Implementation Plan:** `./HYPOTHESIS_PROPERTY_TESTING_PLAN.md`
+- **Strategic Overview:** `./HYPOTHESIS_ANALYSIS_SUMMARY.md`
+- **Developer Quick Reference:** `./HYPOTHESIS_QUICK_REFERENCE.md`
+- **Navigation Guide:** `./HYPOTHESIS_DOCUMENTATION_INDEX.md`
 - **Test File:** `tests/interfaces/test_model_types_properties.py`
 - **Bug Fixed:** `src/interfaces/model_types.py` (line 379)
 - **Hypothesis Docs:** https://hypothesis.readthedocs.io/
