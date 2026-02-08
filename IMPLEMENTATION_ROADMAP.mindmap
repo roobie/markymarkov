@@ -77,8 +77,9 @@
   
 - Phase 2: Agent Integration
   - 2.1: ASTCodeGuide ✓
-  - 2.2: SemanticCodeGuide ✓
+  - 2.2: SemanticCodeGuide ✓ (validate command)
   - 2.3: Performance ✓
+  - 2.4: CLI Validation ✓
   
 - Phase 3: Advanced
   - 3.1: REST API ✓
