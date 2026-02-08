@@ -75,3 +75,5 @@
 [34] **DONE: Phase 1.3: SemanticMarkovTrainer** - COMPLETE: Semantic trainer with pattern sequences, exports Python/JSON. Ready for Phase 1.4 [25]
 
 [35] **DONE: Phase 1.4: Model Types & Interfaces** - COMPLETE: Model types with 5 dataclasses, 52 tests, full validation [35]
+
+[36] **DONE: Phase 2.1: ASTCodeGuide** - COMPLETE: ASTCodeGuide implemented with caching, validation, logit biasing. 34 tests passing. Ready for Phase 2.2 SemanticCodeGuide [36]
