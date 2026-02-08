@@ -289,20 +289,24 @@ class MarkyCLI:
         # Load model
         model_module = self._load_model(args.model_path)
 
-        # Create guide
-        guide = MarkovCodeGuide(model_module)
+        # Determine if this is a semantic or AST model
+        is_semantic = hasattr(model_module, 'CodePattern') and hasattr(model_module, 'probabilities')
+        
+        if is_semantic:
+            self._validate_semantic(args, model_module, code)
+        else:
+            self._validate_ast(args, model_module, code)
 
-        # Extract AST sequence the same way as training
+    def _validate_ast(self, args, model_module, code):
+        """Validate code against AST model."""
         try:
             tree = ast.parse(code)
-            # Use the same extraction method as ASTMarkovTrainer
             trainer = ASTMarkovTrainer(order=getattr(model_module, 'MARKOV_ORDER', 2))
             sequence = trainer.extract_ast_sequence(tree, "start")
 
             if sequence:
                 print(f"Extracted {len(sequence)} AST transitions")
 
-                # Validate transitions between consecutive (parent, node) pairs
                 issues = []
                 total_log_prob = 0.0
                 transition_count = 0
@@ -310,13 +314,10 @@ class MarkyCLI:
                 order = getattr(model_module, 'MARKOV_ORDER', 2)
                 print(f"Model order: {order}")
 
-                # For order N, we need N consecutive pairs to predict the next
-                for i in range(order, min(len(sequence), 25)):  # Check first 25 transitions
-                    # Build context from last N (parent, node) pairs
-                    context = tuple(sequence[i-order:i])  # Last N pairs
-                    next_node_type = sequence[i][1]  # Next node type
+                for i in range(order, min(len(sequence), 25)):
+                    context = tuple(sequence[i-order:i])
+                    next_node_type = sequence[i][1]
 
-                    # Check if this transition exists in model
                     if context in model_module.probabilities:
                         probs = model_module.probabilities[context]
                         if next_node_type in probs:
@@ -328,16 +329,15 @@ class MarkyCLI:
                     else:
                         issues.append(f'Unknown context: {context}')
 
-                # Calculate results
                 if transition_count > 0:
                     avg_log_prob = total_log_prob / transition_count
                     confidence = min(1.0, max(0.0, np.exp(avg_log_prob)))
                 else:
                     confidence = 0.0
 
-                is_valid = confidence > 0.1 or len(issues) == 0  # Be more lenient
+                is_valid = confidence > 0.1 or len(issues) == 0
 
-                print("Validation Result:")
+                print("Validation Result (AST Model):")
                 print(f"  Valid: {is_valid}")
                 print(f"  Confidence: {confidence:.3f}")
                 print(f"  Transitions checked: {max(0, min(len(sequence)-order, 25))}")
@@ -345,7 +345,7 @@ class MarkyCLI:
 
                 if issues:
                     print(f"  Issues: {len(issues)}")
-                    for error in issues[:5]:  # Show first 5
+                    for error in issues[:5]:
                         print(f"    - {error}")
                     if len(issues) > 5:
                         print(f"    ... and {len(issues) - 5} more")
@@ -354,6 +354,96 @@ class MarkyCLI:
 
         except Exception as e:
             print(f"Validation failed: {e}")
+            import traceback
+            traceback.print_exc()
+
+    def _validate_semantic(self, args, model_module, code):
+        """Validate code against semantic pattern model."""
+        try:
+            # Import CodePattern from the MODEL, not from the source
+            ModelCodePattern = model_module.CodePattern
+            
+            # Extract patterns from code using our extractor
+            patterns = extract_patterns_from_code(code)
+            pattern_sequence = [node.pattern for node in patterns]
+
+            # Convert our CodePattern enums to the model's CodePattern enums
+            # by matching on the value string
+            model_pattern_sequence = []
+            for pattern in pattern_sequence:
+                # Find matching pattern in model's enum
+                for model_pattern in ModelCodePattern:
+                    if model_pattern.value == pattern.value:
+                        model_pattern_sequence.append(model_pattern)
+                        break
+
+            if model_pattern_sequence:
+                print(f"Extracted {len(model_pattern_sequence)} semantic patterns")
+                print(f"First 20 patterns: {[p.value for p in model_pattern_sequence[:20]]}")
+
+                issues = []
+                matched_sequences = []
+                total_log_prob = 0.0
+                transition_count = 0
+
+                order = getattr(model_module, 'MARKOV_ORDER', 2)
+                print(f"Model order: {order}")
+                print(f"Model has {len(model_module.probabilities)} pattern sequences")
+
+                # For order N, we need N consecutive patterns to predict the next
+                checked = 0
+                for i in range(order, min(len(model_pattern_sequence), order + 15)):
+                    context = tuple(model_pattern_sequence[i-order:i])
+                    next_pattern = model_pattern_sequence[i]
+                    checked += 1
+
+                    context_str = ' → '.join(p.value for p in context)
+                    
+                    if context in model_module.probabilities:
+                        probs = model_module.probabilities[context]
+                        if next_pattern in probs:
+                            prob = probs[next_pattern]
+                            total_log_prob += np.log(prob) if prob > 0 else -np.inf
+                            transition_count += 1
+                            matched_sequences.append(f'{context_str} → {next_pattern.value} ({prob:.3f})')
+                        else:
+                            # This transition doesn't exist in model
+                            next_options = ', '.join(p.value for p in list(probs.keys())[:3])
+                            issues.append(f'{context_str} → {next_pattern.value} [got: {next_options}]')
+                    else:
+                        issues.append(f'Unknown: {context_str}')
+
+                if transition_count > 0:
+                    avg_log_prob = total_log_prob / transition_count
+                    confidence = min(1.0, max(0.0, np.exp(avg_log_prob)))
+                else:
+                    confidence = 0.0
+
+                # Semantic validation - if ANY patterns match, it's somewhat valid
+                is_valid = transition_count > 0
+
+                print("\nValidation Result (Semantic Model):")
+                print(f"  Valid: {is_valid}")
+                print(f"  Confidence: {confidence:.3f}")
+                print(f"  Pattern sequences checked: {checked}")
+                print(f"  Known transitions: {transition_count}/{checked}")
+
+                if matched_sequences:
+                    print(f"\n  ✓ Matching sequences:")
+                    for seq in matched_sequences[:7]:
+                        print(f"    {seq}")
+                
+                if issues:
+                    print(f"\n  ✗ Non-matching sequences: {len(issues)}")
+                    for error in issues[:3]:
+                        print(f"    {error}")
+                    if len(issues) > 3:
+                        print(f"    ... and {len(issues) - 3} more")
+            else:
+                print("Could not extract semantic patterns from code (no patterns detected)")
+
+        except Exception as e:
+            print(f"Semantic validation failed: {e}")
             import traceback
             traceback.print_exc()
 
