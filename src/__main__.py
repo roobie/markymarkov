@@ -36,6 +36,7 @@ from pathlib import Path
 from typing import List, Optional, Dict, Any
 import ast
 import importlib.util
+import numpy as np
 
 # Add parent directory to path for imports
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -182,7 +183,6 @@ class MarkyCLI:
             ast_model_path = os.path.join(args.output_dir, 'ast_model.py')
             ast_trainer.export_to_python(Path(ast_model_path))
             print(f"✓ AST model saved to: {ast_model_path}")
-            print(f"  States: {len(ast_trainer.get_model().probabilities)}")
             print()
 
         # Train semantic model if requested
@@ -203,7 +203,6 @@ class MarkyCLI:
             semantic_model_path = os.path.join(args.output_dir, 'semantic_model.py')
             semantic_trainer.export_to_python(Path(semantic_model_path))
             print(f"✓ Semantic model saved to: {semantic_model_path}")
-            print(f"  States: {len(semantic_trainer.get_model().probabilities)}")
             print()
 
         print("Training complete! 🎉")
@@ -293,28 +292,70 @@ class MarkyCLI:
         # Create guide
         guide = MarkovCodeGuide(model_module)
 
-        # Extract AST sequence
+        # Extract AST sequence the same way as training
         try:
             tree = ast.parse(code)
-            sequence = []
-            for node in ast.walk(tree):
-                if hasattr(node, '__class__'):
-                    sequence.append(node.__class__.__name__)
+            # Use the same extraction method as ASTMarkovTrainer
+            trainer = ASTMarkovTrainer(order=getattr(model_module, 'MARKOV_ORDER', 2))
+            sequence = trainer.extract_ast_sequence(tree, "start")
 
             if sequence:
-                result = guide.validate_sequence(sequence[:10])  # First 10 nodes
+                print(f"Extracted {len(sequence)} AST transitions")
+
+                # Validate transitions between consecutive (parent, node) pairs
+                issues = []
+                total_log_prob = 0.0
+                transition_count = 0
+
+                order = getattr(model_module, 'MARKOV_ORDER', 2)
+                print(f"Model order: {order}")
+
+                # For order N, we need N consecutive pairs to predict the next
+                for i in range(order, min(len(sequence), 25)):  # Check first 25 transitions
+                    # Build context from last N (parent, node) pairs
+                    context = tuple(sequence[i-order:i])  # Last N pairs
+                    next_node_type = sequence[i][1]  # Next node type
+
+                    # Check if this transition exists in model
+                    if context in model_module.probabilities:
+                        probs = model_module.probabilities[context]
+                        if next_node_type in probs:
+                            prob = probs[next_node_type]
+                            total_log_prob += np.log(prob) if prob > 0 else -np.inf
+                            transition_count += 1
+                        else:
+                            issues.append(f'Unexpected transition: {context} → {next_node_type}')
+                    else:
+                        issues.append(f'Unknown context: {context}')
+
+                # Calculate results
+                if transition_count > 0:
+                    avg_log_prob = total_log_prob / transition_count
+                    confidence = min(1.0, max(0.0, np.exp(avg_log_prob)))
+                else:
+                    confidence = 0.0
+
+                is_valid = confidence > 0.1 or len(issues) == 0  # Be more lenient
+
                 print("Validation Result:")
-                print(f"  Valid: {result.is_valid}")
-                print(f"  Confidence: {result.confidence_score:.3f}")
-                if result.errors:
-                    print(f"  Issues: {len(result.errors)}")
-                    for error in result.errors[:3]:  # Show first 3
+                print(f"  Valid: {is_valid}")
+                print(f"  Confidence: {confidence:.3f}")
+                print(f"  Transitions checked: {max(0, min(len(sequence)-order, 25))}")
+                print(f"  Known transitions: {transition_count}")
+
+                if issues:
+                    print(f"  Issues: {len(issues)}")
+                    for error in issues[:5]:  # Show first 5
                         print(f"    - {error}")
+                    if len(issues) > 5:
+                        print(f"    ... and {len(issues) - 5} more")
             else:
                 print("Could not extract AST sequence from code")
 
         except Exception as e:
             print(f"Validation failed: {e}")
+            import traceback
+            traceback.print_exc()
 
     def _stats(self, args):
         """Show model statistics."""
