@@ -78,4 +78,4 @@
 
 [36] **DONE: Phase 2.1: ASTCodeGuide** - COMPLETE: ASTCodeGuide implemented with caching, validation, logit biasing. 34 tests passing. Ready for Phase 2.2 SemanticCodeGuide [36]
 
-[37] **DR: Hypothesis Property-Based Testing Strategy** - Comprehensive property-based testing strategy for 5 core dataclasses. 25+ properties identified covering bounds invariants, state preservation, method correctness, and cross-module interactions. Full plan in HYPOTHESIS_PROPERTY_TESTING_PLAN.md (21KB). Analysis summary in HYPOTHESIS_ANALYSIS_SUMMARY.md (8KB). Quick reference for developers in HYPOTHESIS_QUICK_REFERENCE.md (9KB). Ready for Phase 2.2 implementation.
+[37] **DR: DONE: Hypothesis Property-Based Testing Strategy** - Implemented 25 property-based tests using Hypothesis for 5 core dataclasses. All properties passing (100 examples each, <3s execution). Fixed SemanticNode.has_context() bug. Full test suite: 195 tests passing (25 properties + 170 unit tests). Implementation complete. See HYPOTHESIS_PROPERTY_TESTING_PLAN.md (21KB), HYPOTHESIS_ANALYSIS_SUMMARY.md (8KB), HYPOTHESIS_QUICK_REFERENCE.md (9KB), HYPOTHESIS_DOCUMENTATION_INDEX.md (12KB).

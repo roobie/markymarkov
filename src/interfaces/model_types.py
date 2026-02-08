@@ -395,7 +395,7 @@ class SemanticNode:
     
     def has_context(self, key: str) -> bool:
         """Check if a context key exists."""
-        return self.context and key in self.context
+        return bool(self.context and key in self.context)
     
     def __hash__(self):
         """Allow SemanticNode to be used in sets and as dict keys."""
