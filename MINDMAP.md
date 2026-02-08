@@ -79,3 +79,7 @@
 [36] **DONE: Phase 2.1: ASTCodeGuide** - COMPLETE: ASTCodeGuide implemented with caching, validation, logit biasing. 34 tests passing. Ready for Phase 2.2 SemanticCodeGuide [36]
 
 [37] **DR: DONE: Hypothesis Property-Based Testing Strategy** - Implemented 25 property-based tests using Hypothesis for 5 core dataclasses. All properties passing (100 examples each, <3s execution). Fixed SemanticNode.has_context() bug. Full test suite: 195 tests passing (25 properties + 170 unit tests). Implementation complete. See [HYPOTHESIS_PROPERTY_TESTING_PLAN.md](./doc/HYPOTHESIS_PROPERTY_TESTING_PLAN.md), [HYPOTHESIS_ANALYSIS_SUMMARY.md](./doc/HYPOTHESIS_ANALYSIS_SUMMARY.md), [HYPOTHESIS_QUICK_REFERENCE.md](./doc/HYPOTHESIS_QUICK_REFERENCE.md), [HYPOTHESIS_DOCUMENTATION_INDEX.md](./doc/HYPOTHESIS_DOCUMENTATION_INDEX.md).
+
+[38] **DR: Documentation Files Organization** - All new .md and .txt files should be created in doc/ directory, not root. Root contains only: README.md, MINDMAP.md, PROTOCOL_MINDMAP.md. Use ./doc/ paths in links from root files. Scripts available: scripts/reorganize-docs.ts and scripts/update-doc-links.ts for bulk operations. [37]
+
+[39] **TODO: Test Coverage Expansion** - Added 41 comprehensive tests for semantic_trainer.py module. Full test coverage: 236 passing tests across all modules. Coverage improved from 54% to 64%. Tests include: initialization, code training (orders 1-3), file/directory operations, probability calculations, Python/JSON exports, statistics, helper functions, and integration tests. [37] [38]

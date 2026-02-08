@@ -1,2 +1,7 @@
 [tools]
 uv = "latest"
+
+[tasks.test]
+run = "uv run pytest"
+[tasks.testcov]
+run = "uv run pytest --cov=src"
