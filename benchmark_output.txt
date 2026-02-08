@@ -1,0 +1,119 @@
+
+############################################################
+# MARKY PERFORMANCE BENCHMARK
+# Source: /usr/lib/python3.13
+# Test file: /usr/lib/python3.13/ast.py
+############################################################
+
+
+>>> TRAINING BENCHMARKS <<<
+
+============================================================
+Training Benchmark: ast model (order=2)
+============================================================
+Duration: 2.60s
+Files processed: 596
+Total size: 20.23 MB
+Throughput: 229.2 files/sec
+Throughput: 7.78 MB/sec
+Model size: 537.1 KB
+
+============================================================
+Training Benchmark: semantic model (order=2)
+============================================================
+Duration: 2.81s
+Files processed: 596
+Total size: 20.23 MB
+Throughput: 212.0 files/sec
+Throughput: 7.19 MB/sec
+Model size: 277.5 KB
+
+============================================================
+Training Benchmark: both model (order=2)
+============================================================
+Duration: 5.65s
+Files processed: 596
+Total size: 20.23 MB
+Throughput: 105.6 files/sec
+Throughput: 3.58 MB/sec
+Model size: 814.6 KB
+
+
+>>> VALIDATION BENCHMARKS <<<
+
+============================================================
+Validation Benchmark: 50 iterations
+============================================================
+  Completed 10/50 iterations...
+  Completed 20/50 iterations...
+  Completed 30/50 iterations...
+  Completed 40/50 iterations...
+  Completed 50/50 iterations...
+Mean: 218.77 ms
+Median: 216.90 ms
+Min: 207.15 ms
+Max: 246.84 ms
+StdDev: 8.82 ms
+P95: 238.33 ms
+P99: 246.84 ms
+
+============================================================
+Validation Benchmark: 50 iterations
+============================================================
+  Completed 10/50 iterations...
+  Completed 20/50 iterations...
+  Completed 30/50 iterations...
+  Completed 40/50 iterations...
+  Completed 50/50 iterations...
+Mean: 380.04 ms
+Median: 211.43 ms
+Min: 187.86 ms
+Max: 1251.71 ms
+StdDev: 362.44 ms
+P95: 1233.50 ms
+P99: 1251.71 ms
+
+
+>>> STATS BENCHMARKS <<<
+
+============================================================
+Stats Benchmark
+============================================================
+Duration: 161.00 ms
+
+Output:
+Loading model: benchmark_models/semantic_model.py
+
+Model Statistics:
+  States: N/A
+  Total transitions: N/A
+  Average transitions per state: N/A
+  Model type: Unknown
+
+Sample states (5 of 600):
+  (<CodePattern.INIT_EMPTY_DICT: 'init-empty-dict'>, <CodePattern.INIT_EMPTY_DICT: 'init-empty-dict'>) → CodePattern.FUNCTION_TRANSFORMER (0.250)
+  (<CodePattern.INIT_EMPTY_DICT: 'init-empty-dict'>, <CodePattern.FUNCTION_TRANSFORMER: 'function-transformer'>) → CodePattern.RETURN_COMPUTED (0.478)
+  (<CodePattern.FUNCTION_TRANSFORMER: 'function-transformer'>, <CodePattern.GUARD_CLAUSE: 'guard-clause'>) → CodePattern.RETURN_COMPUTED (0.449)
+  (<CodePattern.GUARD_CLAUSE: 'guard-clause'>, <CodePattern.RETURN_COMPUTED: 'return-computed'>) → CodePattern.RETURN_COMPUTED (0.253)
+  (<CodePattern.RETURN_COMPUTED: 'return-computed'>, <CodePattern.FUNCTION_TRANSFORMER: 'function-transformer'>) → CodePattern.RETURN_COMPUTED (0.426)
+
+
+
+############################################################
+# BENCHMARK COMPLETE
+# Results saved to: benchmark_results.json
+############################################################
+
+
+>>> SUMMARY <<<
+
+Training Performance:
+  Files: 596
+  Duration: 5.65s
+  Throughput: 105.6 files/sec
+  Model size: 814.6 KB
+
+Validation Performance (semantic):
+  Mean: 380.04 ms
+  Median: 211.43 ms
+  P95: 1233.50 ms

@@ -1,0 +1,69 @@
+{
+  "training_ast": {
+    "duration": 2.6008036136627197,
+    "file_count": 596,
+    "total_size_bytes": 21210750,
+    "total_size_mb": 20.228147506713867,
+    "files_per_second": 229.15993997741774,
+    "mb_per_second": 7.777652799484735,
+    "model_files": {
+      "ast_model.py": 550008
+    },
+    "model_total_kb": 537.1171875,
+    "order": 2,
+    "model_type": "ast"
+  },
+  "training_semantic": {
+    "duration": 2.811716079711914,
+    "file_count": 596,
+    "total_size_bytes": 21210750,
+    "total_size_mb": 20.228147506713867,
+    "files_per_second": 211.97019297235218,
+    "mb_per_second": 7.194235453810978,
+    "model_files": {
+      "semantic_model.py": 284190
+    },
+    "model_total_kb": 277.529296875,
+    "order": 2,
+    "model_type": "semantic"
+  },
+  "training_both": {
+    "duration": 5.645130634307861,
+    "file_count": 596,
+    "total_size_bytes": 21210750,
+    "total_size_mb": 20.228147506713867,
+    "files_per_second": 105.577716196301,
+    "mb_per_second": 3.583291303088507,
+    "model_files": {
+      "semantic_model.py": 284190,
+      "ast_model.py": 550008
+    },
+    "model_total_kb": 814.646484375,
+    "order": 2,
+    "model_type": "both"
+  },
+  "validation_ast": {
+    "iterations": 50,
+    "mean_ms": 218.76676082611084,
+    "median_ms": 216.89891815185547,
+    "min_ms": 207.14831352233887,
+    "max_ms": 246.83523178100586,
+    "stdev_ms": 8.817066592627835,
+    "p95_ms": 238.33036422729492,
+    "p99_ms": 246.83523178100586
+  },
+  "validation_semantic": {
+    "iterations": 50,
+    "mean_ms": 380.0356197357178,
+    "median_ms": 211.4332914352417,
+    "min_ms": 187.85953521728516,
+    "max_ms": 1251.7108917236328,
+    "stdev_ms": 362.43599492128624,
+    "p95_ms": 1233.504056930542,
+    "p99_ms": 1251.7108917236328
+  },
+  "stats": {
+    "duration_ms": 161.00335121154785,
+    "output": "Loading model: benchmark_models/semantic_model.py\n\nModel Statistics:\n  States: N/A\n  Total transitions: N/A\n  Average transitions per state: N/A\n  Model type: Unknown\n\nSample states (5 of 600):\n  (<CodePattern.INIT_EMPTY_DICT: 'init-empty-dict'>, <CodePattern.INIT_EMPTY_DICT: 'init-empty-dict'>) \u2192 CodePattern.FUNCTION_TRANSFORMER (0.250)\n  (<CodePattern.INIT_EMPTY_DICT: 'init-empty-dict'>, <CodePattern.FUNCTION_TRANSFORMER: 'function-transformer'>) \u2192 CodePattern.RETURN_COMPUTED (0.478)\n  (<CodePattern.FUNCTION_TRANSFORMER: 'function-transformer'>, <CodePattern.GUARD_CLAUSE: 'guard-clause'>) \u2192 CodePattern.RETURN_COMPUTED (0.449)\n  (<CodePattern.GUARD_CLAUSE: 'guard-clause'>, <CodePattern.RETURN_COMPUTED: 'return-computed'>) \u2192 CodePattern.RETURN_COMPUTED (0.253)\n  (<CodePattern.RETURN_COMPUTED: 'return-computed'>, <CodePattern.FUNCTION_TRANSFORMER: 'function-transformer'>) \u2192 CodePattern.RETURN_COMPUTED (0.426)\n"
+  }
+}
