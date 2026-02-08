@@ -180,7 +180,7 @@ python -m src train /path/to/code models/ --model-type both
 - Analyzes all Python files
 - Builds AST and semantic models
 - Exports as Python modules
-- ~5 minutes for 1000 files
+- <1 minutes for 1000 files
 
 **Using Marky to Validate Generated Code**
 ```bash
@@ -193,17 +193,49 @@ python -m src validate models/semantic_model.py generated_code.py
 
 **Real-World Validation Output with Diagnostics**
 ```
-✓ Matching sequences (12):
-  1. init-method → function-transformer → if-empty-check (0.075) @ line 116:8
-  2. function-transformer → if-empty-check → return-none (0.244) @ line 118:12
+> uv run python -m src validate examples/pytest/semantic_model.py src/__main__.py
+Built marky @ file:///.../marky
+Uninstalled 1 package in 0.21ms
+Installed 1 package in 0.45ms
+Loading model: examples/pytest/semantic_model.py
+Validating code: src/__main__.py
 
-✗ Non-matching sequences (3):
-  1. return-list → guard-clause → string-format
-     Expected one of: return-list, return-computed, guard-clause
+Extracted 71 semantic patterns
+First 20 patterns: ['init-method', 'function-transformer', 'if-empty-check', 'return-none', 'function-transformer', 'guard-clause', 'return-list', 'guard-clause', 'string-format', 'return-computed', 'function-transformer', 'if-empty-check', 'return-none', 'context-manager', 'string-format', 'context-manager', 'string-format', 'function-transformer', 'return-computed', 'loop-enumerate']
+Model order: 2
+Model has 211 pattern sequences
 
-Summary:
-  Unique patterns found: 23
-  Coverage: 12/15 transitions (80.0%)
+Validation Result (Semantic Model):
+  Valid: True
+  Confidence: 0.373
+  Pattern sequences checked: 15
+  Known transitions: 9/15
+
+  ✓ Matching sequences (9):
+    1. function-transformer → if-empty-check → return-none (0.423) @ line 118:12
+    2. if-empty-check → return-none → function-transformer (0.370) @ line 135:4
+    3. return-none → function-transformer → guard-clause (0.275) @ line 138:12
+    4. guard-clause → return-list → guard-clause (1.000) @ line 143:8
+    5. string-format → return-computed → function-transformer (0.714) @ line 149:4
+    6. return-computed → function-transformer → if-empty-check (0.056) @ line 158:8
+    7. function-transformer → if-empty-check → return-none (0.423) @ line 160:12
+
+  ✗ Non-matching sequences (6):
+    1. init-method → function-transformer → if-empty-check @ line 116:8
+       Expected one of: return-computed, if-type-check, unpacking
+    2. function-transformer → guard-clause → return-list @ line 139:16
+       Expected one of: return-computed, return-none, return-bool
+    3. return-list → guard-clause → string-format
+       Expected one of: return-list
+    4. Unknown sequence: guard-clause → string-format @ line 145:12
+    5. if-empty-check → return-none → context-manager
+       Expected one of: function-transformer, return-computed, guard-clause
+    ... and 1 more
+
+  Summary:
+    Unique patterns found: 23
+    Coverage: 9/15 transitions (60.0%)
+    Issues: 4 unexpected, 2 unknown context
 ```
 
 **Understanding Coverage & Confidence Scores**
@@ -298,7 +330,7 @@ Summary:
 - Cached lookup: <1ms
 - Uncached lookup: <10ms
 - Validation: <50ms
-- Training: 1000 files/min (AST), 500 files/min (Semantic)
+- Training: sub-second per file
 
 **Throughput & Scalability**
 - 50K+ queries/second possible
@@ -341,30 +373,30 @@ Summary:
 
 **Installation & Setup**
 ```bash
-git clone https://github.com/your/marky
+git clone https://github.com/roobie/marky
 cd marky
-uv sync  # or pip install -e .
+uv sync
 ```
 
 **Training Your First Model**
 ```bash
 # Train on your codebase
-python -m src train /path/to/your/code models/
+uv run python -m src train /path/to/your/code models/
 
 # Or on specific patterns
-python -m src train /path/to/code models/ --model-type semantic --order 2
+uv run python -m src train /path/to/code models/ --model-type semantic --order 2
 ```
 
 **Running Validation**
 ```bash
 # Validate a file
-python -m src validate models/semantic_model.py your_file.py
+uv run python -m src validate models/semantic_model.py your_file.py
 
 # See statistics
-python -m src stats models/semantic_model.py
+uv run python -m src stats models/semantic_model.py
 
 # Try the demo
-python -m src demo
+uv run python -m src demo
 ```
 
 **Integration Patterns**
@@ -451,7 +483,7 @@ python -m src demo
 - Marky: Lightweight, fast
 - Marky: Better for style (not semantics)
 
-### 14. Future Roadmap
+### 14. Future explorations
 
 **REST API Service (Phase 3.1)**
 - `/ast/suggest` endpoint
@@ -474,9 +506,9 @@ python -m src demo
 - Real-time feedback in editor
 
 **IDE Plugins**
+- Next-edit suggestions
 - Click to navigate to pattern source
 - Suggestions for pattern improvements
-- One-click refactoring to idiomatic style
 
 ### 15. Conclusion
 
@@ -505,7 +537,6 @@ python -m src demo
 - **52+ semantic patterns** defined
 - **<1ms query latency** (cached)
 - **<50ms validation time** for typical files
-- **Production-ready architecture**
 
 ---
 
