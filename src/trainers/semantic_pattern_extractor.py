@@ -399,13 +399,6 @@ class SemanticPatternAnalyzer(ast.NodeVisitor):
             if isinstance(value.value, bool):
                 return CodePattern.RETURN_BOOL
 
-        # Check NameConstant (for older Python versions)
-        if isinstance(value, ast.NameConstant):
-            if isinstance(value.value, bool):
-                return CodePattern.RETURN_BOOL
-            if value.value is None:
-                return CodePattern.RETURN_NONE
-
         # Check data structure returns
         if isinstance(value, ast.List):
             return CodePattern.RETURN_LIST
@@ -446,10 +439,6 @@ class SemanticPatternAnalyzer(ast.NodeVisitor):
         if isinstance(value, ast.Constant):
             if value.value == 0:
                 return CodePattern.INIT_COUNTER
-
-        # Older Python compat: Num node
-        if isinstance(value, ast.Num) and value.n == 0:
-            return CodePattern.INIT_COUNTER
 
         # dict.get() with default
         if isinstance(value, ast.Call):
