@@ -237,7 +237,10 @@ class SemanticPatternAnalyzer(ast.NodeVisitor):
         """Detect function calls and their patterns."""
         # Detect logging calls
         if isinstance(node.func, ast.Attribute):
-            if "log" in node.func.attr.lower():
+            # Check for logger.method() or logging.method()
+            attr_lower = node.func.attr.lower()
+            logging_methods = {"debug", "info", "warning", "warn", "error", "critical", "fatal", "log"}
+            if "log" in attr_lower or attr_lower in logging_methods:
                 self.patterns.append(SemanticNode(CodePattern.LOGGING_CALL, {}))
 
         # Detect string formatting
@@ -297,7 +300,7 @@ class SemanticPatternAnalyzer(ast.NodeVisitor):
 
         # Check for None checks
         if isinstance(test, ast.Compare):
-            if any(isinstance(op, ast.Is) for op in test.ops):
+            if any(isinstance(op, (ast.Is, ast.IsNot)) for op in test.ops):
                 # Check if comparing to None
                 if any(
                     isinstance(comp, ast.Constant) and comp.value is None
@@ -387,6 +390,10 @@ class SemanticPatternAnalyzer(ast.NodeVisitor):
 
         value = node.value
 
+        # Check for None constant
+        if isinstance(value, ast.Constant) and value.value is None:
+            return CodePattern.RETURN_NONE
+
         # Check literal types
         if isinstance(value, ast.Constant):
             if isinstance(value.value, bool):
@@ -396,6 +403,8 @@ class SemanticPatternAnalyzer(ast.NodeVisitor):
         if isinstance(value, ast.NameConstant):
             if isinstance(value.value, bool):
                 return CodePattern.RETURN_BOOL
+            if value.value is None:
+                return CodePattern.RETURN_NONE
 
         # Check data structure returns
         if isinstance(value, ast.List):
@@ -404,17 +413,26 @@ class SemanticPatternAnalyzer(ast.NodeVisitor):
             return CodePattern.RETURN_DICT
 
         # Check for computed returns
-        if isinstance(value, (ast.BinOp, ast.Call, ast.Name, ast.Subscript)):
+        if isinstance(value, (ast.BinOp, ast.Call, ast.Name, ast.Subscript, ast.Compare)):
             return CodePattern.RETURN_COMPUTED
 
         return None
 
     def _classify_assignment(self, node: ast.Assign) -> Optional[CodePattern]:
         """Classify assignment patterns."""
-        if not node.targets or not isinstance(node.targets[0], ast.Name):
+        if not node.targets:
             return None
 
+        target = node.targets[0]
         value = node.value
+
+        # Unpacking pattern (x, y = data or [a, b] = data)
+        if isinstance(target, (ast.Tuple, ast.List)):
+            return CodePattern.UNPACKING
+
+        # Everything below requires a simple Name target
+        if not isinstance(target, ast.Name):
+            return None
 
         # Empty list initialization
         if isinstance(value, ast.List) and len(value.elts) == 0:
@@ -443,10 +461,6 @@ class SemanticPatternAnalyzer(ast.NodeVisitor):
         if isinstance(value, ast.Constant):
             if value.value is not None:
                 return CodePattern.INIT_DEFAULT_VALUE
-
-        # Unpacking pattern
-        if isinstance(node.targets[0], (ast.Tuple, ast.List)):
-            return CodePattern.UNPACKING
 
         return None
 
