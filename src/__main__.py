@@ -42,7 +42,10 @@ import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from .trainers.ast_trainer import ASTMarkovTrainer
-from .trainers.semantic_pattern_extractor import SemanticPatternAnalyzer, extract_patterns_from_code
+from .trainers.semantic_pattern_extractor import (
+    SemanticPatternAnalyzer,
+    extract_patterns_from_code,
+)
 from .trainers.semantic_trainer import SemanticMarkovTrainer
 from .guides.ast_code_guide import MarkovCodeGuide, CachedMarkovCodeGuide
 from .interfaces.model_types import ASTContext
@@ -55,9 +58,11 @@ class MarkyCLI:
         self.parser = argparse.ArgumentParser(
             description="Marky - Markov Chain Guidance System for LLM Code Generation",
             formatter_class=argparse.RawDescriptionHelpFormatter,
-            epilog=__doc__
+            epilog=__doc__,
         )
-        self.subparsers = self.parser.add_subparsers(dest='command', help='Available commands')
+        self.subparsers = self.parser.add_subparsers(
+            dest="command", help="Available commands"
+        )
 
         self._setup_train_parser()
         self._setup_query_parser()
@@ -67,47 +72,59 @@ class MarkyCLI:
 
     def _setup_train_parser(self):
         """Setup train command parser."""
-        parser = self.subparsers.add_parser('train', help='Train Markov models from code')
-        parser.add_argument('code_path', help='Path to Python code file or directory')
-        parser.add_argument('output_dir', help='Directory to save trained models')
+        parser = self.subparsers.add_parser(
+            "train", help="Train Markov models from code"
+        )
+        parser.add_argument("code_path", help="Path to Python code file or directory")
+        parser.add_argument("output_dir", help="Directory to save trained models")
         parser.add_argument(
-            '--model-type',
-            choices=['ast', 'semantic', 'both'],
-            default='both',
-            help='Type of model to train (default: both)'
+            "--model-type",
+            choices=["ast", "semantic", "both"],
+            default="both",
+            help="Type of model to train (default: both)",
         )
         parser.add_argument(
-            '--order',
+            "--order",
             type=int,
             default=2,
             choices=[1, 2, 3],
-            help='Markov chain order (default: 2)'
+            help="Markov chain order (default: 2)",
         )
 
     def _setup_query_parser(self):
         """Setup query command parser."""
-        parser = self.subparsers.add_parser('query', help='Query model for suggestions')
-        parser.add_argument('model_path', help='Path to trained model file')
-        parser.add_argument('code_context', help='Partial code context for suggestions')
-        parser.add_argument('--top-k', type=int, default=5, help='Number of suggestions to return')
-        parser.add_argument('--temperature', type=float, default=1.0, help='Sampling temperature')
-        parser.add_argument('--min-confidence', choices=['LOW', 'MEDIUM', 'HIGH'], default='MEDIUM',
-                          help='Minimum confidence level')
+        parser = self.subparsers.add_parser("query", help="Query model for suggestions")
+        parser.add_argument("model_path", help="Path to trained model file")
+        parser.add_argument("code_context", help="Partial code context for suggestions")
+        parser.add_argument(
+            "--top-k", type=int, default=5, help="Number of suggestions to return"
+        )
+        parser.add_argument(
+            "--temperature", type=float, default=1.0, help="Sampling temperature"
+        )
+        parser.add_argument(
+            "--min-confidence",
+            choices=["LOW", "MEDIUM", "HIGH"],
+            default="MEDIUM",
+            help="Minimum confidence level",
+        )
 
     def _setup_validate_parser(self):
         """Setup validate command parser."""
-        parser = self.subparsers.add_parser('validate', help='Validate code against model')
-        parser.add_argument('model_path', help='Path to trained model file')
-        parser.add_argument('code_file', help='Python code file to validate')
+        parser = self.subparsers.add_parser(
+            "validate", help="Validate code against model"
+        )
+        parser.add_argument("model_path", help="Path to trained model file")
+        parser.add_argument("code_file", help="Python code file to validate")
 
     def _setup_stats_parser(self):
         """Setup stats command parser."""
-        parser = self.subparsers.add_parser('stats', help='Show model statistics')
-        parser.add_argument('model_path', help='Path to trained model file')
+        parser = self.subparsers.add_parser("stats", help="Show model statistics")
+        parser.add_argument("model_path", help="Path to trained model file")
 
     def _setup_demo_parser(self):
         """Setup demo command parser."""
-        parser = self.subparsers.add_parser('demo', help='Run interactive demo')
+        parser = self.subparsers.add_parser("demo", help="Run interactive demo")
 
     def run(self):
         """Run the CLI."""
@@ -118,15 +135,15 @@ class MarkyCLI:
             return
 
         try:
-            if args.command == 'train':
+            if args.command == "train":
                 self._train(args)
-            elif args.command == 'query':
+            elif args.command == "query":
                 self._query(args)
-            elif args.command == 'validate':
+            elif args.command == "validate":
                 self._validate(args)
-            elif args.command == 'stats':
+            elif args.command == "stats":
                 self._stats(args)
-            elif args.command == 'demo':
+            elif args.command == "demo":
                 self._demo()
         except Exception as e:
             print(f"Error: {e}", file=sys.stderr)
@@ -135,13 +152,13 @@ class MarkyCLI:
     def _find_python_files(self, path: str) -> List[str]:
         """Find all Python files in path."""
         if os.path.isfile(path):
-            if path.endswith('.py'):
+            if path.endswith(".py"):
                 return [path]
             else:
                 raise ValueError(f"Not a Python file: {path}")
 
         if os.path.isdir(path):
-            pattern = os.path.join(path, '**', '*.py')
+            pattern = os.path.join(path, "**", "*.py")
             return glob.glob(pattern, recursive=True)
 
         raise ValueError(f"Path does not exist: {path}")
@@ -166,13 +183,13 @@ class MarkyCLI:
         os.makedirs(args.output_dir, exist_ok=True)
 
         # Train AST model if requested
-        if args.model_type in ['ast', 'both']:
+        if args.model_type in ["ast", "both"]:
             print("Training AST model...")
             ast_trainer = ASTMarkovTrainer(order=args.order)
 
             for file_path in python_files:
                 try:
-                    with open(file_path, 'r', encoding='utf-8') as f:
+                    with open(file_path, "r", encoding="utf-8") as f:
                         code = f.read()
                     ast_trainer.train_on_code(code)
                     print(f"✓ Processed: {file_path}")
@@ -180,19 +197,19 @@ class MarkyCLI:
                     print(f"✗ Failed: {file_path} - {e}")
 
             # Export AST model
-            ast_model_path = os.path.join(args.output_dir, 'ast_model.py')
+            ast_model_path = os.path.join(args.output_dir, "ast_model.py")
             ast_trainer.export_to_python(Path(ast_model_path))
             print(f"✓ AST model saved to: {ast_model_path}")
             print()
 
         # Train semantic model if requested
-        if args.model_type in ['semantic', 'both']:
+        if args.model_type in ["semantic", "both"]:
             print("Training semantic model...")
             semantic_trainer = SemanticMarkovTrainer(order=args.order)
 
             for file_path in python_files:
                 try:
-                    with open(file_path, 'r', encoding='utf-8') as f:
+                    with open(file_path, "r", encoding="utf-8") as f:
                         code = f.read()
                     semantic_trainer.train_on_code(code)
                     print(f"✓ Processed: {file_path}")
@@ -200,7 +217,7 @@ class MarkyCLI:
                     print(f"✗ Failed: {file_path} - {e}")
 
             # Export semantic model
-            semantic_model_path = os.path.join(args.output_dir, 'semantic_model.py')
+            semantic_model_path = os.path.join(args.output_dir, "semantic_model.py")
             semantic_trainer.export_to_python(Path(semantic_model_path))
             print(f"✓ Semantic model saved to: {semantic_model_path}")
             print()
@@ -238,19 +255,21 @@ class MarkyCLI:
         except Exception as e:
             print(f"Could not parse context: {e}")
             print("Trying with simple context...")
-            context = ASTContext('Module', 'Expr')  # Fallback
+            context = ASTContext("Module", "Expr")  # Fallback
 
         # Get suggestions
         suggestions = guide.suggest_next_nodes(
             context=context,
             top_k=args.top_k,
             temperature=args.temperature,
-            min_confidence=args.min_confidence
+            min_confidence=args.min_confidence,
         )
 
         print("Suggestions:")
         for i, s in enumerate(suggestions, 1):
-            print(f"{i}. {s.node_type} (prob: {s.probability:.3f}, conf: {s.confidence})")
+            print(
+                f"{i}. {s.node_type} (prob: {s.probability:.3f}, conf: {s.confidence})"
+            )
 
         print()
         print(f"Cache stats: {guide.get_cache_stats()}")
@@ -262,19 +281,21 @@ class MarkyCLI:
             # Find the last meaningful node
             last_node = None
             for node in ast.walk(tree):
-                if isinstance(node, (ast.FunctionDef, ast.ClassDef, ast.If, ast.For, ast.While)):
+                if isinstance(
+                    node, (ast.FunctionDef, ast.ClassDef, ast.If, ast.For, ast.While)
+                ):
                     last_node = node
                 elif isinstance(node, (ast.Return, ast.Assign, ast.Expr)):
                     last_node = node
 
             if last_node:
-                parent_type = type(tree.body[0]).__name__ if tree.body else 'Module'
+                parent_type = type(tree.body[0]).__name__ if tree.body else "Module"
                 current_type = type(last_node).__name__
                 return ASTContext(parent_type, current_type)
             else:
-                return ASTContext('Module', 'Expr')
+                return ASTContext("Module", "Expr")
         except:
-            return ASTContext('Module', 'Expr')
+            return ASTContext("Module", "Expr")
 
     def _validate(self, args):
         """Validate code against model."""
@@ -283,15 +304,17 @@ class MarkyCLI:
         print()
 
         # Load code
-        with open(args.code_file, 'r', encoding='utf-8') as f:
+        with open(args.code_file, "r", encoding="utf-8") as f:
             code = f.read()
 
         # Load model
         model_module = self._load_model(args.model_path)
 
         # Determine if this is a semantic or AST model
-        is_semantic = hasattr(model_module, 'CodePattern') and hasattr(model_module, 'probabilities')
-        
+        is_semantic = hasattr(model_module, "CodePattern") and hasattr(
+            model_module, "probabilities"
+        )
+
         if is_semantic:
             self._validate_semantic(args, model_module, code)
         else:
@@ -301,7 +324,7 @@ class MarkyCLI:
         """Validate code against AST model."""
         try:
             tree = ast.parse(code)
-            trainer = ASTMarkovTrainer(order=getattr(model_module, 'MARKOV_ORDER', 2))
+            trainer = ASTMarkovTrainer(order=getattr(model_module, "MARKOV_ORDER", 2))
             sequence = trainer.extract_ast_sequence(tree, "start")
 
             if sequence:
@@ -311,11 +334,11 @@ class MarkyCLI:
                 total_log_prob = 0.0
                 transition_count = 0
 
-                order = getattr(model_module, 'MARKOV_ORDER', 2)
+                order = getattr(model_module, "MARKOV_ORDER", 2)
                 print(f"Model order: {order}")
 
                 for i in range(order, min(len(sequence), 25)):
-                    context = tuple(sequence[i-order:i])
+                    context = tuple(sequence[i - order : i])
                     next_node_type = sequence[i][1]
 
                     if context in model_module.probabilities:
@@ -325,9 +348,11 @@ class MarkyCLI:
                             total_log_prob += np.log(prob) if prob > 0 else -np.inf
                             transition_count += 1
                         else:
-                            issues.append(f'Unexpected transition: {context} → {next_node_type}')
+                            issues.append(
+                                f"Unexpected transition: {context} → {next_node_type}"
+                            )
                     else:
-                        issues.append(f'Unknown context: {context}')
+                        issues.append(f"Unknown context: {context}")
 
                 if transition_count > 0:
                     avg_log_prob = total_log_prob / transition_count
@@ -340,7 +365,9 @@ class MarkyCLI:
                 print("Validation Result (AST Model):")
                 print(f"  Valid: {is_valid}")
                 print(f"  Confidence: {confidence:.3f}")
-                print(f"  Transitions checked: {max(0, min(len(sequence)-order, 25))}")
+                print(
+                    f"  Transitions checked: {max(0, min(len(sequence) - order, 25))}"
+                )
                 print(f"  Known transitions: {transition_count}")
 
                 if issues:
@@ -355,6 +382,7 @@ class MarkyCLI:
         except Exception as e:
             print(f"Validation failed: {e}")
             import traceback
+
             traceback.print_exc()
 
     def _validate_semantic(self, args, model_module, code):
@@ -362,10 +390,10 @@ class MarkyCLI:
         try:
             # Import CodePattern from the MODEL, not from the source
             ModelCodePattern = model_module.CodePattern
-            
+
             # Extract patterns from code using our extractor
             patterns = extract_patterns_from_code(code)
-            
+
             # Build sequence with location info
             pattern_sequence = [node.pattern for node in patterns]
             pattern_locations = {i: node for i, node in enumerate(patterns)}
@@ -382,61 +410,71 @@ class MarkyCLI:
 
             if model_pattern_sequence:
                 print(f"Extracted {len(model_pattern_sequence)} semantic patterns")
-                print(f"First 20 patterns: {[p.value for p in model_pattern_sequence[:20]]}")
+                print(
+                    f"First 20 patterns: {[p.value for p in model_pattern_sequence[:20]]}"
+                )
 
                 issues = []
                 matched_sequences = []
                 total_log_prob = 0.0
                 transition_count = 0
 
-                order = getattr(model_module, 'MARKOV_ORDER', 2)
+                order = getattr(model_module, "MARKOV_ORDER", 2)
                 print(f"Model order: {order}")
                 print(f"Model has {len(model_module.probabilities)} pattern sequences")
 
                 # For order N, we need N consecutive patterns to predict the next
                 checked = 0
                 for i in range(order, min(len(model_pattern_sequence), order + 15)):
-                    context = tuple(model_pattern_sequence[i-order:i])
+                    context = tuple(model_pattern_sequence[i - order : i])
                     next_pattern = model_pattern_sequence[i]
                     checked += 1
 
-                    context_str = ' → '.join(p.value for p in context)
-                    
+                    context_str = " → ".join(p.value for p in context)
+
                     # Get location info for the next pattern
                     next_node = pattern_locations.get(i)
                     loc_info = ""
                     if next_node and next_node.lineno:
                         loc_info = f" @ line {next_node.lineno}:{next_node.col_offset}"
-                    
+
                     if context in model_module.probabilities:
                         probs = model_module.probabilities[context]
                         if next_pattern in probs:
                             prob = probs[next_pattern]
                             total_log_prob += np.log(prob) if prob > 0 else -np.inf
                             transition_count += 1
-                            matched_sequences.append({
-                                'context': context_str,
-                                'next': next_pattern.value,
-                                'prob': prob,
-                                'location': loc_info
-                            })
+                            matched_sequences.append(
+                                {
+                                    "context": context_str,
+                                    "next": next_pattern.value,
+                                    "prob": prob,
+                                    "location": loc_info,
+                                }
+                            )
                         else:
                             # This transition doesn't exist in model
-                            next_options = ', '.join(p.value for p in list(probs.keys())[:3])
-                            issues.append({
-                                'type': 'unexpected',
-                                'context': context_str,
-                                'next': next_pattern.value,
-                                'options': next_options,
-                                'location': loc_info
-                            })
+                            next_options = ", ".join(
+                                p.value for p in list(probs.keys())[:3]
+                            )
+                            issues.append(
+                                {
+                                    "type": "unexpected",
+                                    "context": context_str,
+                                    "next": next_pattern.value,
+                                    "options": next_options,
+                                    "location": loc_info,
+                                }
+                            )
                     else:
                         # Context not in model
-                        issues.append({
-                            'type': 'unknown_context',
-                            'context': context_str,
-                            'location': loc_info
-                        })
+                        issues.append(
+                            {
+                                "type": "unknown_context",
+                                "context": context_str,
+                                "location": loc_info,
+                            }
+                        )
 
                 if transition_count > 0:
                     avg_log_prob = total_log_prob / transition_count
@@ -456,32 +494,47 @@ class MarkyCLI:
                 if matched_sequences:
                     print(f"\n  ✓ Matching sequences ({len(matched_sequences)}):")
                     for i, seq in enumerate(matched_sequences[:7], 1):
-                        print(f"    {i}. {seq['context']} → {seq['next']} ({seq['prob']:.3f}){seq['location']}")
-                
+                        print(
+                            f"    {i}. {seq['context']} → {seq['next']} ({seq['prob']:.3f}){seq['location']}"
+                        )
+
                 if issues:
                     print(f"\n  ✗ Non-matching sequences ({len(issues)}):")
                     for i, issue in enumerate(issues[:5], 1):
-                        if issue['type'] == 'unknown_context':
-                            print(f"    {i}. Unknown sequence: {issue['context']}{issue['location']}")
+                        if issue["type"] == "unknown_context":
+                            print(
+                                f"    {i}. Unknown sequence: {issue['context']}{issue['location']}"
+                            )
                         else:
-                            print(f"    {i}. {issue['context']} → {issue['next']}{issue['location']}")
+                            print(
+                                f"    {i}. {issue['context']} → {issue['next']}{issue['location']}"
+                            )
                             print(f"       Expected one of: {issue['options']}")
-                    
+
                     if len(issues) > 5:
                         print(f"    ... and {len(issues) - 5} more")
-                
+
                 # Summary statistics
                 print(f"\n  Summary:")
-                print(f"    Unique patterns found: {len(set(p.value for p in model_pattern_sequence))}")
-                print(f"    Coverage: {transition_count}/{checked} transitions ({100*transition_count/max(1, checked):.1f}%)")
+                print(
+                    f"    Unique patterns found: {len(set(p.value for p in model_pattern_sequence))}"
+                )
+                print(
+                    f"    Coverage: {transition_count}/{checked} transitions ({100 * transition_count / max(1, checked):.1f}%)"
+                )
                 if issues:
-                    print(f"    Issues: {len([i for i in issues if i['type'] == 'unexpected'])} unexpected, {len([i for i in issues if i['type'] == 'unknown_context'])} unknown context")
+                    print(
+                        f"    Issues: {len([i for i in issues if i['type'] == 'unexpected'])} unexpected, {len([i for i in issues if i['type'] == 'unknown_context'])} unknown context"
+                    )
             else:
-                print("Could not extract semantic patterns from code (no patterns detected)")
+                print(
+                    "Could not extract semantic patterns from code (no patterns detected)"
+                )
 
         except Exception as e:
             print(f"Semantic validation failed: {e}")
             import traceback
+
             traceback.print_exc()
 
     def _stats(self, args):
@@ -504,9 +557,13 @@ class MarkyCLI:
         print(f"  Model type: {getattr(model_module, '__model_type__', 'Unknown')}")
 
         # Show sample states
-        if hasattr(model_module, 'probabilities'):
-            print(f"\nSample states ({min(5, len(model_module.probabilities))} of {len(model_module.probabilities)}):")
-            for i, (state, probs) in enumerate(list(model_module.probabilities.items())[:5]):
+        if hasattr(model_module, "probabilities"):
+            print(
+                f"\nSample states ({min(5, len(model_module.probabilities))} of {len(model_module.probabilities)}):"
+            )
+            for i, (state, probs) in enumerate(
+                list(model_module.probabilities.items())[:5]
+            ):
                 top_prob = max(probs.items(), key=lambda x: x[1])
                 print(f"  {state} → {top_prob[0]} ({top_prob[1]:.3f})")
 
@@ -550,12 +607,12 @@ if __name__ == "__main__":
 
         # Create guide - need to create a mock model module
         import types
-        
+
         # Create a mock model module with probabilities
-        mock_model = types.ModuleType('mock_model')
+        mock_model = types.ModuleType("mock_model")
         mock_model.probabilities = trainer.get_probabilities()
         mock_model.order = 2
-        
+
         guide = CachedMarkovCodeGuide(mock_model, cache_size=100)
 
         # Demo queries
@@ -576,12 +633,16 @@ if __name__ == "__main__":
             print(f"AST State: {parent} → {current}")
             print("Suggestions:")
             for s in suggestions:
-                print(f"  • {s.node_type} (prob: {s.probability:.3f}, conf: {s.confidence})")
+                print(
+                    f"  • {s.node_type} (prob: {s.probability:.3f}, conf: {s.confidence})"
+                )
 
         print()
         print("Cache performance:", guide.get_cache_stats())
         print()
-        print("🎯 Demo complete! Try training your own models with 'python -m src train <code> <output>'")
+        print(
+            "🎯 Demo complete! Try training your own models with 'python -m src train <code> <output>'"
+        )
 
 
 def main():
@@ -590,5 +651,5 @@ def main():
     cli.run()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

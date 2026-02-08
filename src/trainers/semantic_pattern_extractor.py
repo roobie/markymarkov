@@ -126,24 +126,28 @@ class SemanticPatternAnalyzer(ast.NodeVisitor):
         self.in_loop = False
         self.in_try = False
 
-    def _add_pattern(self, pattern: CodePattern, node: ast.AST = None, context: Dict = None):
+    def _add_pattern(
+        self, pattern: CodePattern, node: ast.AST = None, context: Dict = None
+    ):
         """Add a pattern with location information."""
         if context is None:
             context = {}
-        
-        lineno = getattr(node, 'lineno', None) if node else None
-        col_offset = getattr(node, 'col_offset', None) if node else None
-        end_lineno = getattr(node, 'end_lineno', None) if node else None
-        end_col_offset = getattr(node, 'end_col_offset', None) if node else None
-        
-        self.patterns.append(SemanticNode(
-            pattern=pattern,
-            context=context,
-            lineno=lineno,
-            col_offset=col_offset,
-            end_lineno=end_lineno,
-            end_col_offset=end_col_offset
-        ))
+
+        lineno = getattr(node, "lineno", None) if node else None
+        col_offset = getattr(node, "col_offset", None) if node else None
+        end_lineno = getattr(node, "end_lineno", None) if node else None
+        end_col_offset = getattr(node, "end_col_offset", None) if node else None
+
+        self.patterns.append(
+            SemanticNode(
+                pattern=pattern,
+                context=context,
+                lineno=lineno,
+                col_offset=col_offset,
+                end_lineno=end_lineno,
+                end_col_offset=end_col_offset,
+            )
+        )
 
     def visit_FunctionDef(self, node: ast.FunctionDef):
         """Analyze function definitions."""
@@ -262,7 +266,16 @@ class SemanticPatternAnalyzer(ast.NodeVisitor):
         if isinstance(node.func, ast.Attribute):
             # Check for logger.method() or logging.method()
             attr_lower = node.func.attr.lower()
-            logging_methods = {"debug", "info", "warning", "warn", "error", "critical", "fatal", "log"}
+            logging_methods = {
+                "debug",
+                "info",
+                "warning",
+                "warn",
+                "error",
+                "critical",
+                "fatal",
+                "log",
+            }
             if "log" in attr_lower or attr_lower in logging_methods:
                 self.patterns.append(SemanticNode(CodePattern.LOGGING_CALL, {}))
 
@@ -429,7 +442,9 @@ class SemanticPatternAnalyzer(ast.NodeVisitor):
             return CodePattern.RETURN_DICT
 
         # Check for computed returns
-        if isinstance(value, (ast.BinOp, ast.Call, ast.Name, ast.Subscript, ast.Compare)):
+        if isinstance(
+            value, (ast.BinOp, ast.Call, ast.Name, ast.Subscript, ast.Compare)
+        ):
             return CodePattern.RETURN_COMPUTED
 
         return None
