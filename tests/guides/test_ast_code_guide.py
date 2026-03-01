@@ -11,14 +11,14 @@ import tempfile
 from pathlib import Path
 import pytest
 
-from src.guides.ast_code_guide import (
+from markymarkov.guides.ast_code_guide import (
     MarkovCodeGuide,
     CachedMarkovCodeGuide,
     StreamingCodeValidator,
     quick_suggest,
     validate_generated_code,
 )
-from src.interfaces.model_types import ASTContext, NextNodeSuggestion
+from markymarkov.interfaces.model_types import ASTContext, NextNodeSuggestion
 
 
 class MockModel:

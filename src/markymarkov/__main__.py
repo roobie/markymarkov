@@ -36,6 +36,7 @@ from pathlib import Path
 from typing import List, Optional, Dict, Any
 import ast
 import importlib.util
+import json
 import numpy as np
 
 # Add parent directory to path for imports
@@ -49,6 +50,10 @@ from .trainers.semantic_pattern_extractor import (
 from .trainers.semantic_trainer import SemanticMarkovTrainer
 from .guides.ast_code_guide import MarkovCodeGuide, CachedMarkovCodeGuide
 from .interfaces.model_types import ASTContext
+
+# API wrappers
+from .api.style import get_style_guidance_from_file, get_style_guidance_from_text
+from .api.validate import validate_code
 
 
 class MarkyCLI:
@@ -69,6 +74,9 @@ class MarkyCLI:
         self._setup_validate_parser()
         self._setup_stats_parser()
         self._setup_demo_parser()
+        # New commands
+        self._setup_style_parser()
+        self._setup_validate_code_parser()
 
     def _setup_train_parser(self):
         """Setup train command parser."""
@@ -126,6 +134,29 @@ class MarkyCLI:
         """Setup demo command parser."""
         parser = self.subparsers.add_parser("demo", help="Run interactive demo")
 
+    def _setup_style_parser(self):
+        """Setup get_style_guidance parser."""
+        parser = self.subparsers.add_parser(
+            "get_style_guidance", help="Return a style briefing for a file or text"
+        )
+        parser.add_argument("file_path", nargs="?", help="Path to file to analyze")
+        parser.add_argument("--desc", "--description", dest="description", help="Short description of what's being written", default=None)
+        parser.add_argument("--engine", dest="engine", default="heuristics", help="Engine to use: heuristics or markov")
+        parser.add_argument("--model", dest="model_path", default=None, help="Optional model path to augment guidance")
+        parser.add_argument("--json", action="store_true", dest="json", help="Output JSON")
+
+    def _setup_validate_code_parser(self):
+        """Setup validate_code parser."""
+        parser = self.subparsers.add_parser(
+            "validate_code", help="Validate code (syntax-only or model-based)"
+        )
+        group = parser.add_mutually_exclusive_group(required=False)
+        group.add_argument("--file", dest="file", help="Path to code file")
+        group.add_argument("--code", dest="code", help="Code text literal")
+        parser.add_argument("--model", dest="model_path", help="Optional model path for model-based validation")
+        parser.add_argument("--language", dest="language", default="python", help="Language hint (default: python)")
+        parser.add_argument("--json", action="store_true", dest="json", help="Output JSON")
+
     def run(self):
         """Run the CLI."""
         args = self.parser.parse_args()
@@ -145,6 +176,10 @@ class MarkyCLI:
                 self._stats(args)
             elif args.command == "demo":
                 self._demo()
+            elif args.command == "get_style_guidance":
+                self._get_style_guidance_cmd(args)
+            elif args.command == "validate_code":
+                self._validate_code_cmd(args)
         except Exception as e:
             print(f"Error: {e}", file=sys.stderr)
             sys.exit(1)
@@ -643,6 +678,69 @@ if __name__ == "__main__":
         print(
             "🎯 Demo complete! Try training your own models with 'python -m src train <code> <output>'"
         )
+
+    def _get_style_guidance_cmd(self, args):
+        """Handler for get_style_guidance CLI command."""
+        if not getattr(args, "file_path", None):
+            print("Error: file_path is required unless you provide text via the API.")
+            return
+
+        try:
+            result = get_style_guidance_from_file(args.file_path, description=getattr(args, "description", None), engine=getattr(args, "engine", "heuristics"), model_path=getattr(args, "model_path", None))
+            if getattr(args, "json", False):
+                print(json.dumps(result, indent=2))
+            else:
+                print(result.get("briefing", "No briefing available"))
+                sections = result.get("sections")
+                if sections:
+                    print("\nSections:")
+                    for k, v in sections.items():
+                        print(f"- {k}: {v}")
+        except Exception as e:
+            print(f"Failed to get style guidance: {e}")
+
+    def _validate_code_cmd(self, args):
+        """Handler for validate_code CLI command."""
+        code = getattr(args, "code", None)
+        if not code and getattr(args, "file", None):
+            try:
+                with open(args.file, "r", encoding="utf-8") as f:
+                    code = f.read()
+            except Exception as e:
+                print(f"Failed to read file {args.file}: {e}")
+                return
+
+        # If still no code, try to read from stdin
+        if not code:
+            if not sys.stdin.isatty():
+                code = sys.stdin.read()
+
+        if not code:
+            print("Error: no code provided. Use --code or --file or pipe code to stdin.")
+            return
+
+        try:
+            result = validate_code(code, language=getattr(args, "language", "python"), filename=getattr(args, "file", None), model_path=getattr(args, "model_path", None))
+            if getattr(args, "json", False):
+                print(json.dumps(result, indent=2))
+            else:
+                print(result.get("summary", "No summary"))
+                diags = result.get("diagnostics", [])
+                if diags:
+                    print("\nDiagnostics:")
+                    for d in diags:
+                        rng = d.get("range", {})
+                        start = rng.get("start", {})
+                        line = start.get("line", "?")
+                        ch = start.get("character", "?")
+                        print(f"- [{d.get('severity')}] line {line}:{ch} {d.get('message')}")
+                if "confidence" in result:
+                    print(f"\nConfidence: {result.get('confidence')}")
+        except Exception as e:
+            print(f"Validation failed: {e}")
+            import traceback
+
+            traceback.print_exc()
 
 
 def main():

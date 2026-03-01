@@ -1,0 +1,2 @@
+>>> # Compatibility proxy: re-export model types from markymarkov.interfaces
+    from markymarkov.interfaces.model_types import *

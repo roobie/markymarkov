@@ -1,0 +1,17 @@
+{
+  "name": "get_style_guidance",
+  "version": "0.1",
+  "description": "Return a style briefing for a file or text.",
+  "handler": "markymarkov.api.style.run",
+  "inputs": {
+    "file_path": { "type": "string", "required": false },
+    "text": { "type": "string", "required": false },
+    "description": { "type": "string", "required": false },
+    "engine": { "type": "string", "required": false },
+    "model_path": { "type": "string", "required": false }
+  },
+  "outputs": {
+    "briefing": { "type": "string" },
+    "sections": { "type": "object", "additionalProperties": { "type": "string" } }
+  }
+}
